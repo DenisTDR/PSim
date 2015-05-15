@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="PSim.MainWindow" Title="MainWindow" Height="427.796" Width="484.077" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:PSim">
+  <Grid>
+    <Label Name="label1" Content="Label" HorizontalAlignment="Left" Margin="21,27,0,0" VerticalAlignment="Top" Height="264" Width="280" />
+  </Grid>
+</Window>

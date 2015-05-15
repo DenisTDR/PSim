@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="PSim.TestWindow" Title="TestWindow" Height="369.6" Width="375.2" WindowStyle="ToolWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <ListBox Name="lb" HorizontalAlignment="Left" Margin="10,19.4,0,10" Width="205.6"/>
+    </Grid>
+</Window>

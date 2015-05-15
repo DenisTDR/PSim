@@ -1,0 +1,23 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PSim.MapSettingsWindow"
+        Title="Parallel settings" Height="175.2" Width="135.2" WindowStyle="ToolWindow">
+    <Grid>
+        <Grid x:Name="paralelParkingSettingsGrid" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch" Visibility="Visible" >
+            <CheckBox x:Name="car1ppaCheckBox" Content="Car1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car2ppaCheckBox" Content="Car2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,31,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car3ppaCheckBox" Content="Car3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,51,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car4ppaCheckBox" Content="Car4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,71,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+        </Grid>
+        <Grid x:Name="bigParkingSettingsGrid" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch" Visibility="Visible" >
+            <CheckBox x:Name="car1paCheckBox" Content="Car1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car2paCheckBox" Content="Car2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,31,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car3paCheckBox" Content="Car3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,51,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car4paCheckBox" Content="Car4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,71,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car5paCheckBox" Content="Car5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,91,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+            <CheckBox x:Name="car6paCheckBox" Content="Car6" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,111,0,0" Checked="car1paCheckBox_Checked" Unchecked="car1paCheckBox_Checked"/>
+
+        </Grid>
+    </Grid>
+</Window>
