@@ -55,8 +55,8 @@ namespace PSim
 			CarStatus carStatu = new CarStatus();
 			ext.CarStatusWindow = carStatu;
 			carStatu.Show();
-			NewActionWindow newActionWindow = new NewActionWindow();
-			ext.NewActionWindow = newActionWindow;
+            CarSettingsWindow newActionWindow = new CarSettingsWindow();
+            ext.CarSettingsWindow = newActionWindow;
 			newActionWindow.Show();
 			SensorsWindow sensorsWindow = new SensorsWindow();
 			ext.SensorsWindow = sensorsWindow;
@@ -428,28 +428,26 @@ namespace PSim
 			double movingStep;
 			if (ext.ActionsList.Count != 0)
 			{
-				CarAction item = ext.ActionsList[0];
-				if (item.Duration > 0)
+                CarAction carAction = ext.ActionsList[0];
+                if (carAction.Duration > 0)
 				{
 					Action action = null;
 					double num = RandomMersene.genrand_real1() * ((RandomMersene.genrand_bool() ? -1.0 : 1.0));
-                    if (item.MoveAction == MoveAction.SmartMovement)
+                    if (carAction.MoveAction == MoveAction.SmartMovement)
                     {
                         action = () => this.theCar.translateRotateCuplu();
-                        item.Duration -= this.theTimer.Interval / 1000;
+                        carAction.Duration -= this.theTimer.Interval / 1000;
                     }
-					else if (item.Direction != Direction.Straight)
+                    else if (carAction.Direction != Direction.Straight)
 					{
-						movingStep = (double)((item.MoveAction == MoveAction.Forward ? 1 : -1)) * ext.MovingStep + num * ext.deviationPercent / 100 * ext.MovingStep;
-						action = () => this.theCar.autoTranslateRotate(movingStep, item.Direction);
-						CarAction duration = item;
-						duration.Duration = duration.Duration - this.theTimer.Interval / 1000;
+                        movingStep = (double)((carAction.MoveAction == MoveAction.Forward ? 1 : -1)) * ext.MovingStep + num * ext.deviationPercent / 100 * ext.MovingStep;
+                        action = () => this.theCar.autoTranslateRotate(movingStep, carAction.Direction);
+                        carAction.Duration = carAction.Duration - this.theTimer.Interval / 1000;
 					}
 					else
 					{
-						movingStep = (double)((item.MoveAction == MoveAction.Forward ? 1 : -1)) * ext.MovingStep + num * ext.deviationPercent / 100 * ext.MovingStep;
+                        movingStep = (double)((carAction.MoveAction == MoveAction.Forward ? 1 : -1)) * ext.MovingStep + num * ext.deviationPercent / 100 * ext.MovingStep;
 						action = () => this.theCar.Move(movingStep);
-						CarAction carAction = item;
 						carAction.Duration = carAction.Duration - this.theTimer.Interval / 1000;
 					}
 					System.Windows.Threading.Dispatcher dispatcher = base.Dispatcher;
@@ -480,7 +478,7 @@ namespace PSim
 				}
 				else
 				{
-					ext.ActionsList.Remove(item);
+                    ext.ActionsList.Remove(carAction);
 				}
 			}
             if (tmpRefreshShitsTimes > 0)

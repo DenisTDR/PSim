@@ -15,7 +15,7 @@ namespace PSim
 		{
 			this.InitializeComponent();
 			base.Left = 5;
-			base.Top = ext.NewActionWindow.Top + ext.NewActionWindow.Height + 5;
+            base.Top = ext.CarSettingsWindow.Top + ext.CarSettingsWindow.Height + 5;
 			if (ext.distanceSensors != null)
 			{
 				base.Height = (double)(70 + 22 * ext.distanceSensors.Count);

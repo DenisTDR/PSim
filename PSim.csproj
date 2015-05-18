@@ -54,6 +54,7 @@
     <Compile Include="Car.xaml.cs">
       <DependentUpon>Car.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EnginesSetting.cs" />
     <Compile Include="PSim\QueueEntry.cs" />
     <Compile Include="Graphics\GraphicForm.cs">
       <SubType>Form</SubType>
@@ -145,9 +146,9 @@
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="windows\NewActionWindow.xaml.cs">
+    <Compile Include="windows\CarSettingsWindow.xaml.cs">
       <AutoGen>false</AutoGen>
-      <DependentUpon>NewActionWindow.xaml</DependentUpon>
+      <DependentUpon>CarSettingsWindow.xaml</DependentUpon>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
       <SubType>Code</SubType>
     </Compile>
@@ -196,7 +197,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="windows\NewActionWindow.xaml">
+    <Page Include="windows\CarSettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

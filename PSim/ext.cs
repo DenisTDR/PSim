@@ -14,7 +14,7 @@ namespace PSim
 
 		public static LogsWindow LogsWindow;
 
-		public static NewActionWindow NewActionWindow;
+        public static CarSettingsWindow CarSettingsWindow;
 
 		public static SensorsWindow SensorsWindow;
 
