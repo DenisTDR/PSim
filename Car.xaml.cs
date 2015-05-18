@@ -152,7 +152,7 @@ namespace PSim
         {
             try
             {
-                ext.NewActionWindow.reloadCarProps();
+                ext.CarSettingsWindow.reloadCarProps();
                 ext.MapWindow.refreshMechanicCouple();
             }
             catch { }

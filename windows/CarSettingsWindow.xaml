@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window x:Class="PSim.NewActionWindow" Title="NewActionWindow" Height="373.542" Width="581.6" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Window x:Class="PSim.CarSettingsWindow" Title="CarSettingsWindow" Height="373.542" Width="581.6" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Button Name="moveForwardBtn" Content="Forward" HorizontalAlignment="Left" Margin="50,6.2,0,0" VerticalAlignment="Top" Width="89" Height="36" Click="moveForwardBtn_Click" />
         <Button Name="moveBackwardBtn" Content="Backward" HorizontalAlignment="Left" Margin="50,73.2,0,0" VerticalAlignment="Top" Width="89" Height="36" Click="moveBackwardBtn_Click" />

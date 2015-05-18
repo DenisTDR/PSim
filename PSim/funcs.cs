@@ -7,13 +7,13 @@ using System.Timers;
 
 namespace PSim
 {
-	public static class funcs
-	{
-		public static double DistanceTo(this Point p1, Point p2)
-		{
-			double num = Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
-			return num;
-		}
+    public static class funcs
+    {
+        public static double DistanceTo(this Point p1, Point p2)
+        {
+            double num = Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
+            return num;
+        }
 
         public static List<Limit> getParkingAreaLimits(double wSize)
         {
@@ -59,26 +59,26 @@ namespace PSim
             return limits;
         }
 
-		public static List<Limit> limitsFromPoints(IEnumerable<Point> points)
-		{
-			List<Limit> limits = new List<Limit>();
-			Point point = new Point();
-			bool flag = true;
-			foreach (Point point1 in points)
-			{
-				if (!flag)
-				{
-					limits.Add(new Limit(point, point1));
-					point = point1;
-				}
-				else
-				{
-					point = point1;
-					flag = false;
-				}
-			}
-			return limits;
-		}
+        public static List<Limit> limitsFromPoints(IEnumerable<Point> points)
+        {
+            List<Limit> limits = new List<Limit>();
+            Point point = new Point();
+            bool flag = true;
+            foreach (Point point1 in points)
+            {
+                if (!flag)
+                {
+                    limits.Add(new Limit(point, point1));
+                    point = point1;
+                }
+                else
+                {
+                    point = point1;
+                    flag = false;
+                }
+            }
+            return limits;
+        }
 
         public static double getHWRatio()
         {
@@ -96,24 +96,24 @@ namespace PSim
             foreach (Limit lim in list)
                 lim.Translatare(p).LineColor = Color;
         }
-		public static void Log(string log)
-		{
-			if (ext.LogsWindow != null)
-			{
-				ext.LogsWindow.AddLog(log);
-			}
-		}
+        public static void Log(string log)
+        {
+            if (ext.LogsWindow != null)
+            {
+                ext.LogsWindow.AddLog(log);
+            }
+        }
 
-		public static Point Round(this Point p, int dec = 0)
-		{
-			Point point = new Point(Math.Round(p.X, dec), Math.Round(p.Y, dec));
-			return point;
-		}
+        public static Point Round(this Point p, int dec = 0)
+        {
+            Point point = new Point(Math.Round(p.X, dec), Math.Round(p.Y, dec));
+            return point;
+        }
 
-		public static double Round(this double d, int dec = 2)
-		{
-			return Math.Round(d, dec);
-		}
+        public static double Round(this double d, int dec = 2)
+        {
+            return Math.Round(d, dec);
+        }
         public static double Length(this System.Windows.Shapes.Line line)
         {
             return Math.Sqrt(Math.Pow(line.X1 - line.X2, 2) + Math.Pow(line.Y1 - line.Y2, 2));
@@ -136,30 +136,31 @@ namespace PSim
 
         static void timmingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Action action = () =>
+            int i;
+            for (i = 0; i < ext.cmdQueue.Count; i++)
             {
-                int i;
-                for (i = 0; i < ext.cmdQueue.Count; i++)
+                ext.cmdQueue[i].Period -= (int)timmingTimer.Interval;
+                if (ext.cmdQueue[i].Period <= 0)
                 {
-                    ext.cmdQueue[i].Period -= (int)timmingTimer.Interval;
-                    if (ext.cmdQueue[i].Period <= 0)
+                    if (ext.cmdQueue[i].Repeat)
                     {
-                        if (ext.cmdQueue[i].Repeat)
-                        {
-                            ext.cmdQueue[i].Period = ext.cmdQueue[i].BackUpPeriod;
-                        }
+                        ext.cmdQueue[i].Period = ext.cmdQueue[i].BackUpPeriod;
+                    }
+
+                    Action action = () =>
+                    {
                         if (ext.cmdQueue[i].CheckIfDone())
                         {
                             ext.cmdQueue.RemoveAt(i);
                             i--;
                         }
-                    }
+                    };
+                    if (ext.MapWindow.Dispatcher.CheckAccess())
+                        action();
+                    else
+                        ext.MapWindow.Dispatcher.Invoke(action);
                 }
-            };
-            if (ext.MapWindow.Dispatcher.CheckAccess())
-                action();
-            else
-                ext.MapWindow.Dispatcher.Invoke(action);
+            }
         }
-	}
+    }
 }

@@ -58,6 +58,21 @@ namespace TDR_Graphics
                 BorderWidth = 2F,
                 BorderColor = Color.Blue
             });
+
+            if (TGraphic.Points.Count > 100)
+            {
+                TGraphic.Points.RemoveRange(0, 90);
+                TGraphic.Lines.RemoveRange(0, 90);
+                lastW = 20 * 20;
+
+                foreach (GraphicPoint gp in TGraphic.Points)
+                    gp.Point = new Point(gp.Point.X - 20 * 90, gp.Point.Y);
+                foreach (GraphicLine gl in TGraphic.Lines)
+                {
+                    gl.P1 = new Point(gl.P1.X - 20 * 90, gl.P1.Y);
+                    gl.P2 = new Point(gl.P2.X - 20 * 90, gl.P2.Y);
+                }
+            }
             TGraphic.Redraw();
             if (this.AutoScrollLeft)
             {

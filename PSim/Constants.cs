@@ -32,4 +32,17 @@ namespace PSim
         SideRight,
         SideLeft
     }
+
+    public enum Sens
+    {
+        SensFata,
+        SensSpate
+    }
+
+    public enum Engines
+    {
+        RightEngines,
+        LeftEngines
+    }
+
 }

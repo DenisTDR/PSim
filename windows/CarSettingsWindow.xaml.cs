@@ -10,9 +10,9 @@ using System.Windows.Markup;
 
 namespace PSim
 {
-    public partial class NewActionWindow : Window
+    public partial class CarSettingsWindow : Window
     {
-        public NewActionWindow()
+        public CarSettingsWindow()
         {
             this.InitializeComponent();
             base.Left = 5;
@@ -153,15 +153,7 @@ namespace PSim
             catch { }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            CarAction carAction = new CarAction()
-            {
-                MoveAction = MoveAction.SmartMovement,
-                Duration = double.Parse(this.timeTxt.Text)
-            };
-            ext.ActionsList.Add(carAction);
-        }
+   
 
         private void leftEnginesSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -223,11 +215,16 @@ namespace PSim
             }
             return false;
         }
-
+        
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            RealFuncs.rotirePeLoc(2, 250, Engines.LeftEngines);
+        }
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             RealFuncs.StopEngines();
         }
+
 
     }
 }
