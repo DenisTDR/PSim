@@ -294,7 +294,7 @@ namespace PSim
 
                 this.RotationAngle += angle*2;
 
-                funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round() + "  dl: "+directLength.Round()+"  angl: " + angle.Round());
+                //funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round() + "  dl: "+directLength.Round()+"  angl: " + angle.Round());
             }
         }
 

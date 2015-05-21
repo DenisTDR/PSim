@@ -112,28 +112,28 @@ namespace PSim
 			List<DistanceSensor> distanceSensors = ext.distanceSensors;
 			DistanceSensor distanceSensor = new DistanceSensor()
 			{
-				Name = "frontSensor1",
+                Name = "FrontRight",
 				Angle = 45
 			};
 			distanceSensors.Add(distanceSensor);
 			List<DistanceSensor> distanceSensors1 = ext.distanceSensors;
 			DistanceSensor distanceSensor1 = new DistanceSensor()
 			{
-				Name = "frontSensor2",
+                Name = "FrontLeft",
 				Angle = -45
 			};
 			distanceSensors1.Add(distanceSensor1);
 			List<DistanceSensor> distanceSensors2 = ext.distanceSensors;
 			DistanceSensor distanceSensor2 = new DistanceSensor()
 			{
-				Name = "sideSensor1",
+				Name = "SideRight",
 				Angle = 90
 			};
 			distanceSensors2.Add(distanceSensor2);
 			List<DistanceSensor> distanceSensors3 = ext.distanceSensors;
 			DistanceSensor distanceSensor3 = new DistanceSensor()
 			{
-				Name = "sideSensor2",
+				Name = "SideLeft",
 				Angle = -90
 			};
 			distanceSensors3.Add(distanceSensor3);
@@ -452,11 +452,12 @@ namespace PSim
 					}
 					System.Windows.Threading.Dispatcher dispatcher = base.Dispatcher;
 					if (action != null)
-					{
-						Action action1 = () => {
+                    {
+                        Action action1 = () =>
+                        {
 							if (action != null)
-							{
-								action();
+                            {
+                                action();
 							}
 							this.RefreshShits();
 						};

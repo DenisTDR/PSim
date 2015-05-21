@@ -197,32 +197,15 @@ namespace PSim
             ext.TheCar.RightEnginesSense = (int)e.NewValue;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void executeCode1Btn_Click(object sender, RoutedEventArgs e)
         {
-            QueueEntry qe = new QueueEntry();
-            qe.BackUpPeriod = qe.Period = 100;
-            qe.Repeat = true;
-            qe.TheFunction += qe_TheFunction;
-            ext.cmdQueue.Add(qe);
+            RealMeta.initFunc1();
         }
 
-        bool qe_TheFunction(QueueEntry qe, EventArgs e)
-        {
-            if (funcs.getSensorValue(Sensor.FrontLeft) < 50)
-            {
-                RealFuncs.StopEngines();
-                return true;
-            }
-            return false;
-        }
-        
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            RealFuncs.rotirePeLoc(2, 250, Engines.LeftEngines);
-        }
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void abortBtn_Click(object sender, RoutedEventArgs e)
         {
             RealFuncs.StopEngines();
+            ext.cmdQueue.Clear();
         }
 
 

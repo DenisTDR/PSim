@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window x:Class="PSim.CarSettingsWindow" Title="CarSettingsWindow" Height="373.542" Width="581.6" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Window x:Class="PSim.CarSettingsWindow" Title="CarSettingsWindow" Height="312.742" Width="394.346" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Button Name="moveForwardBtn" Content="Forward" HorizontalAlignment="Left" Margin="50,6.2,0,0" VerticalAlignment="Top" Width="89" Height="36" Click="moveForwardBtn_Click" />
         <Button Name="moveBackwardBtn" Content="Backward" HorizontalAlignment="Left" Margin="50,73.2,0,0" VerticalAlignment="Top" Width="89" Height="36" Click="moveBackwardBtn_Click" />
-        <Label Content="s" HorizontalAlignment="Left" Margin="190,14,0,0" VerticalAlignment="Top" Width="18" />
-        <TextBox Name="timeTxt" HorizontalAlignment="Left" Height="23" Margin="154,14,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="31" />
+        <Label Content="s" HorizontalAlignment="Left" Margin="176.5,13.5,0,0" VerticalAlignment="Top" Width="18" />
+        <TextBox Name="timeTxt" HorizontalAlignment="Left" Height="23" Margin="148.5,14,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="31" />
         <Label Content="Deviation Error Percent:" HorizontalAlignment="Left" Margin="11,119,0,0" VerticalAlignment="Top" Width="139" />
         <TextBox Name="deviationPercentTxt" HorizontalAlignment="Left" IsReadOnly="True" Height="22" Margin="149,123,0,0" TextWrapping="Wrap" Text="2.5" VerticalAlignment="Top" Width="31" RenderTransformOrigin="1.462,2.319" TextAlignment="Right" />
         <Slider HorizontalAlignment="Left" Margin="7,150,0,0" VerticalAlignment="Top" Width="191.6" Minimum="0" Maximum="50" SmallChange="1" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="2.5" ValueChanged="Slider_ValueChanged" />
@@ -16,31 +16,30 @@
         <RadioButton Name="turnLeftCheckBox" Content="Left" HorizontalAlignment="Left" Margin="12,53,0,0" VerticalAlignment="Top" Checked="frontRadioBtn_Checked"  />
         <RadioButton Name="turnRightCheckBox" Content="Right" HorizontalAlignment="Left" Margin="146.8,50,0,0" VerticalAlignment="Top" Checked="frontRadioBtn_Checked" />
         <RadioButton Name="frontRadioBtn" Content="Straight" HorizontalAlignment="Left" Margin="69,50,0,0" VerticalAlignment="Top" IsChecked="True" Checked="frontRadioBtn_Checked" />
-        <Grid Height="28" Margin="0,306,-0.4,0" VerticalAlignment="Top">
-            <RadioButton x:Name="bigParkingRadioBtn" Content="Big Parking" HorizontalAlignment="Left" Margin="7,-45.6,0,0" VerticalAlignment="Top" IsChecked="True" Checked="bigParkingRadioBtn_Checked" />
-            <RadioButton x:Name="lateralParkingRadioBtn" Content="Lateral Parking" HorizontalAlignment="Left" Margin="7,-65.8,0,0" VerticalAlignment="Top" Checked="bigParkingRadioBtn_Checked" />
-            <Button x:Name="mapSettingsBtn" Content="Map Settings" HorizontalAlignment="Left" Margin="7,-25.4,0,0" VerticalAlignment="Top" Width="102" Click="mapSettingsBtn_Click" />
+        <Grid Height="37.2" Margin="0,239.2,-0.4,0" VerticalAlignment="Top">
+            <RadioButton x:Name="bigParkingRadioBtn" Content="Big Parking" HorizontalAlignment="Left" Margin="10,20.2,0,0" VerticalAlignment="Top" IsChecked="True" Checked="bigParkingRadioBtn_Checked" />
+            <RadioButton x:Name="lateralParkingRadioBtn" Content="Lateral Parking" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Checked="bigParkingRadioBtn_Checked" />
+            <Button x:Name="mapSettingsBtn" Content="Map Settings" HorizontalAlignment="Left" Margin="130.2,10,0,0" VerticalAlignment="Top" Width="102" Click="mapSettingsBtn_Click" />
         </Grid>
         <RadioButton x:Name="rotateLeftCheckBox" Content="R Left" HorizontalAlignment="Left" Margin="149,76.05,0,0" VerticalAlignment="Top" Checked="frontRadioBtn_Checked" />
         <RadioButton x:Name="rotateRightCheckBox" Content="R Right" HorizontalAlignment="Left" Margin="146.8,97.05,0,0" VerticalAlignment="Top" Checked="frontRadioBtn_Checked"  />
 
-        <Slider Name="enginePowerSlider" Value="255" HorizontalAlignment="Left" Margin="231.8,47.2,0,0" VerticalAlignment="Top" Width="21.2" Minimum="0" Maximum="255" ValueChanged="enginePowerSlider_ValueChanged" Orientation="Vertical" Height="68.45"/>
-        <Button Content="Add smart movement" HorizontalAlignment="Left" Margin="240.4,166.45,0,0" VerticalAlignment="Top" Width="127.2" Click="Button_Click"/>
-        <Slider x:Name="leftEnginesSlider" Value="255" HorizontalAlignment="Left" Margin="297.6,4.9,0,0" VerticalAlignment="Top" Width="23" Minimum="0" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1" Orientation="Vertical" Height="102.25" ValueChanged="leftEnginesSlider_ValueChanged"/>
-        <Slider x:Name="rightEnginesSlider" Value="255" HorizontalAlignment="Left" Margin="343.2,4.9,0,0" VerticalAlignment="Top" Width="23" Minimum="0" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1" Orientation="Vertical" Height="102.25" ValueChanged="rightEnginesSlider_ValueChanged"/>
-        <Label Content="Left" HorizontalAlignment="Left" Margin="292.25,130.5,0,0" VerticalAlignment="Top"/>
-        <Label Content="Right" HorizontalAlignment="Left" Margin="334.5,130.5,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="leftEnginesTxt" HorizontalAlignment="Left" IsReadOnly="True" Height="20" Margin="292.25,108.8,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="29.8" RenderTransformOrigin="1.462,2.319" TextAlignment="Right" />
-        <TextBox x:Name="rightEnginesTxt" HorizontalAlignment="Left" IsReadOnly="True" Height="20" Margin="337.85,108.8,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="29.8" RenderTransformOrigin="1.462,2.319" TextAlignment="Right" />
-        <Label Content="%" HorizontalAlignment="Left" Margin="322.05,108.8,0,0" VerticalAlignment="Top" Height="18.2" Width="10.8" Padding="0"/>
-        <Label Content="%" HorizontalAlignment="Left" Margin="367.65,108.8,0,0" VerticalAlignment="Top" Height="18.2" Width="10.8" Padding="0"/>
-        <Slider x:Name="leftEnginesSenseSlider" Value="1" HorizontalAlignment="Left" Margin="269.6,35.65,0,0" VerticalAlignment="Top" Width="23" Minimum="-1" Maximum="1" IsSnapToTickEnabled="True" TickFrequency="2" Orientation="Vertical" Height="27.45" ValueChanged="leftEnginesSenseSlider_ValueChanged" />
-        <Slider x:Name="rightEnginesSenseSlider" Value="1" HorizontalAlignment="Left" Margin="366.2,35.65,0,0" VerticalAlignment="Top" Width="23" Minimum="-1" Maximum="1" IsSnapToTickEnabled="True" TickFrequency="2" Orientation="Vertical" Height="27.45" ValueChanged="rightEnginesSenseSlider_ValueChanged" />
-        <Label x:Name="leftEnginesSenseLbl" Content="Front" Padding="0" HorizontalAlignment="Left" Margin="264.6,63.1,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="rightEnginesSenseLbl" Content="Front" Padding="0" HorizontalAlignment="Left" Margin="366.2,63.1,0,0" VerticalAlignment="Top"/>
-        
-        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Margin="217.8,7.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34.6" Width="49.6">Engine Power</TextBlock>
-        <Button Content="Stop Engines" HorizontalAlignment="Left" Margin="322.05,191.41,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" />
-        <Button Content="Add a task" HorizontalAlignment="Left" Margin="240.4,192.05,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+        <Slider Name="enginePowerSlider" Value="255" HorizontalAlignment="Left" Margin="217.8,47.2,0,0" VerticalAlignment="Top" Width="21.2" Minimum="0" Maximum="255" ValueChanged="enginePowerSlider_ValueChanged" Orientation="Vertical" Height="68.45"/>
+        <Button x:Name="executeCode1Btn"  Content="Execute Code 1" HorizontalAlignment="Left" Margin="231.9,166.45,0,0" VerticalAlignment="Top" Width="127.2" Click="executeCode1Btn_Click"/>
+        <Slider x:Name="leftEnginesSlider" Value="255" HorizontalAlignment="Left" Margin="283.6,4.9,0,0" VerticalAlignment="Top" Width="23" Minimum="0" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1" Orientation="Vertical" Height="102.25" ValueChanged="leftEnginesSlider_ValueChanged"/>
+        <Slider x:Name="rightEnginesSlider" Value="255" HorizontalAlignment="Left" Margin="329.2,4.9,0,0" VerticalAlignment="Top" Width="23" Minimum="0" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1" Orientation="Vertical" Height="102.25" ValueChanged="rightEnginesSlider_ValueChanged"/>
+        <Label Content="Left" HorizontalAlignment="Left" Margin="278.25,130.5,0,0" VerticalAlignment="Top"/>
+        <Label Content="Right" HorizontalAlignment="Left" Margin="320.5,130.5,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="leftEnginesTxt" HorizontalAlignment="Left" IsReadOnly="True" Height="20" Margin="278.25,108.8,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="29.8" RenderTransformOrigin="1.462,2.319" TextAlignment="Right" />
+        <TextBox x:Name="rightEnginesTxt" HorizontalAlignment="Left" IsReadOnly="True" Height="20" Margin="323.85,108.8,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="29.8" RenderTransformOrigin="1.462,2.319" TextAlignment="Right" />
+        <Label Content="%" HorizontalAlignment="Left" Margin="308.05,108.8,0,0" VerticalAlignment="Top" Height="18.2" Width="10.8" Padding="0"/>
+        <Label Content="%" HorizontalAlignment="Left" Margin="353.65,108.8,0,0" VerticalAlignment="Top" Height="18.2" Width="10.8" Padding="0"/>
+        <Slider x:Name="leftEnginesSenseSlider" Value="1" HorizontalAlignment="Left" Margin="255.6,35.65,0,0" VerticalAlignment="Top" Width="23" Minimum="-1" Maximum="1" IsSnapToTickEnabled="True" TickFrequency="2" Orientation="Vertical" Height="27.45" ValueChanged="leftEnginesSenseSlider_ValueChanged" />
+        <Slider x:Name="rightEnginesSenseSlider" Value="1" HorizontalAlignment="Left" Margin="352.2,35.65,0,0" VerticalAlignment="Top" Width="23" Minimum="-1" Maximum="1" IsSnapToTickEnabled="True" TickFrequency="2" Orientation="Vertical" Height="27.45" ValueChanged="rightEnginesSenseSlider_ValueChanged" />
+        <Label x:Name="leftEnginesSenseLbl" Content="Front" Padding="0" HorizontalAlignment="Left" Margin="250.6,63.1,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="rightEnginesSenseLbl" Content="Front" Padding="0" HorizontalAlignment="Left" Margin="352.2,63.1,0,0" VerticalAlignment="Top"/>
+
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Margin="203.8,7.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34.6" Width="49.6">Engine Power</TextBlock>
+        <Button x:Name="abortBtn" Content="Abort" HorizontalAlignment="Left" Margin="231.9,192.45,0,0" VerticalAlignment="Top" Width="127.25" Click="abortBtn_Click"/>
     </Grid>
 </Window>
