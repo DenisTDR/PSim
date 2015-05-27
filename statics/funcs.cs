@@ -162,5 +162,9 @@ namespace PSim
                 }
             }
         }
+        public static double getFrontSensorLateralPosition()
+        {
+            return ext.TheCar.ActualHeight / 4 + ext.TheCar.ActualWidth / 2;
+        }
     }
 }

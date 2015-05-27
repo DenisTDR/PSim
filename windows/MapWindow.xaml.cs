@@ -112,28 +112,28 @@ namespace PSim
 			List<DistanceSensor> distanceSensors = ext.distanceSensors;
 			DistanceSensor distanceSensor = new DistanceSensor()
 			{
-				Name = "frontSensor1",
+                Name = "FrontRight",
 				Angle = 45
 			};
 			distanceSensors.Add(distanceSensor);
 			List<DistanceSensor> distanceSensors1 = ext.distanceSensors;
 			DistanceSensor distanceSensor1 = new DistanceSensor()
 			{
-				Name = "frontSensor2",
+                Name = "FrontLeft",
 				Angle = -45
 			};
 			distanceSensors1.Add(distanceSensor1);
 			List<DistanceSensor> distanceSensors2 = ext.distanceSensors;
 			DistanceSensor distanceSensor2 = new DistanceSensor()
 			{
-				Name = "sideSensor1",
+				Name = "SideRight",
 				Angle = 90
 			};
 			distanceSensors2.Add(distanceSensor2);
 			List<DistanceSensor> distanceSensors3 = ext.distanceSensors;
 			DistanceSensor distanceSensor3 = new DistanceSensor()
 			{
-				Name = "sideSensor2",
+				Name = "SideLeft",
 				Angle = -90
 			};
 			distanceSensors3.Add(distanceSensor3);
@@ -343,7 +343,7 @@ namespace PSim
                 base.Width = actualHeight / funcs.getHWRatio() + width;
                 base.Height = actualHeight + height;
 
-                this.theCar.Width = 402 * actualHeight / funcs.getRH();
+                this.theCar.Width = 402 * actualHeight / funcs.getRH(); //402
                 this.theCar.Height = 470 * actualHeight / funcs.getRH();
 
 				this.drawLimits();
@@ -361,6 +361,7 @@ namespace PSim
 
         private void RefreshShits()
         {
+            this.Title = ext.TheCar.ActualWidth.ToString() + ", " + ext.TheCar.ActualHeight.ToString();
             double midLeft = this.theCar.MidLeft + this.theCar.ActualHeight / 2 * Math.Sin(this.theCar.RotationAngleRads) + this.theCar.ActualWidth / 4 * Math.Sin(this.theCar.RotationAngleRads - 1.5707963267949);
             double midTop = this.theCar.MidTop - this.theCar.ActualHeight / 2 * Math.Cos(this.theCar.RotationAngleRads) - this.theCar.ActualWidth / 4 * Math.Cos(this.theCar.RotationAngleRads - 1.5707963267949);
             ext.distanceSensors[0].Location = new Point(midLeft, midTop);
@@ -406,7 +407,7 @@ namespace PSim
             lRight.X1 = theCar.MidLeft
                 + Math.Cos(theCar.RotationAngleRads) * theCar.Width / 2;
 
-
+            
             lRight.Y2 = theCar.MidTop - Math.Cos(theCar.RotationAngleRads) * theCar.RightEnginesResult
                 + Math.Sin(theCar.RotationAngleRads) * theCar.Width / 2;
             lRight.X2 = theCar.MidLeft + Math.Sin(theCar.RotationAngleRads) * theCar.RightEnginesResult
@@ -452,11 +453,12 @@ namespace PSim
 					}
 					System.Windows.Threading.Dispatcher dispatcher = base.Dispatcher;
 					if (action != null)
-					{
-						Action action1 = () => {
+                    {
+                        Action action1 = () =>
+                        {
 							if (action != null)
-							{
-								action();
+                            {
+                                action();
 							}
 							this.RefreshShits();
 						};

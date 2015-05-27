@@ -54,8 +54,8 @@
     <Compile Include="Car.xaml.cs">
       <DependentUpon>Car.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EnginesSetting.cs" />
-    <Compile Include="PSim\QueueEntry.cs" />
+    <Compile Include="RealMeta\EnginesSetting.cs" />
+    <Compile Include="RealMeta\QueueEntry.cs" />
     <Compile Include="Graphics\GraphicForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,7 +65,8 @@
     <Compile Include="Graphics\TGraphic.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RealFuncs.cs" />
+    <Compile Include="RealMeta\RealFuncs.cs" />
+    <Compile Include="RealMeta\RealMeta.cs" />
     <Compile Include="statics\RandomMersene.cs" />
     <Compile Include="windows\MapSettingsWindow.xaml.cs">
       <DependentUpon>MapSettingsWindow.xaml</DependentUpon>
@@ -86,7 +87,7 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PSim\ext.cs">
+    <Compile Include="statics\ext.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
@@ -94,7 +95,7 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PSim\funcs.cs">
+    <Compile Include="statics\funcs.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
@@ -103,6 +104,9 @@
       <DependentUpon>LogsWindow.xaml</DependentUpon>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="windows\NumericUpDown.xaml.cs">
+      <DependentUpon>NumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="windows\SensorsWindow.xaml.cs">
       <AutoGen>false</AutoGen>
@@ -177,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="windows\NumericUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="windows\SensorsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -208,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="customchestii\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

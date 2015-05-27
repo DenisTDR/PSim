@@ -13,6 +13,7 @@ namespace PSim
         public int Period { get; set; }
         public int BackUpPeriod { get; set; }
         public bool Repeat { get; set; }
+        public string UserData { get; set; }
 
         public bool CheckIfDone()
         {

@@ -169,7 +169,7 @@ namespace PSim
                 } while (ext.EngineRatio <= 1);
                 this.autoTranslateRotate(distance, dir, false);
 
-                funcs.Log("r r w: " + (ext.EngineRatio - oldRatio).ToString());
+                //funcs.Log("r r w: " + (ext.EngineRatio - oldRatio).ToString());
 
                 ext.EngineRatio = oldRatio;
                 return;
@@ -218,7 +218,7 @@ namespace PSim
                 double oldRatio = ext.EngineRatio;
                 ext.EngineRatio = RandomMersene.genrand_real1() * ext.deviationPercent * 40 / 100 + 1;
                 this.autoTranslateRotate(dist, RandomMersene.genrand_bool() ? Direction.Left : Direction.Right, false);
-                funcs.Log("m r w:" + (ext.EngineRatio - 1).ToString());
+                //funcs.Log("m r w:" + (ext.EngineRatio - 1).ToString());
                 ext.EngineRatio = oldRatio;
                 return;
             }
@@ -294,7 +294,7 @@ namespace PSim
 
                 this.RotationAngle += angle*2;
 
-                funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round() + "  dl: "+directLength.Round()+"  angl: " + angle.Round());
+                //funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round() + "  dl: "+directLength.Round()+"  angl: " + angle.Round());
             }
         }
 
