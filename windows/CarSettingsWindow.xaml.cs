@@ -18,6 +18,20 @@ namespace PSim
             base.Left = 5;
             base.Top = ext.CarStatusWindow.Top + ext.CarStatusWindow.Height + 5;
             ext.EngineRatio = 2;
+            parallelCheckToleranceNumUD.ValueChanged += parallelCheckToleranceNumUD_ValueChanged;
+            parallelWarningToleranceNumUD.ValueChanged += parallelWarningToleranceNumUD_ValueChanged;
+            parallelCheckToleranceNumUD.Value = 10;
+            parallelWarningToleranceNumUD.Value= 25;
+        }
+
+        void parallelWarningToleranceNumUD_ValueChanged(Control.NumericUpDown m, double NewValue)
+        {
+            RealMeta.ParallelWarningTollerance = NewValue;
+        }
+
+        void parallelCheckToleranceNumUD_ValueChanged(Control.NumericUpDown m, double NewValue)
+        {
+            RealMeta.ParallelTollerance = NewValue;
         }
 
         private void moveBackwardBtn_Click(object sender, RoutedEventArgs e)
@@ -199,13 +213,31 @@ namespace PSim
 
         private void executeCode1Btn_Click(object sender, RoutedEventArgs e)
         {
-            RealMeta.initFunc1();
+            RealMeta.initTest1();
         }
 
         private void abortBtn_Click(object sender, RoutedEventArgs e)
         {
             RealFuncs.StopEngines();
             ext.cmdQueue.Clear();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            RealMeta.initParcareLaterala();
+        }
+
+        private void runCode_Click(object sender, RoutedEventArgs e)
+        {
+            ext.ActionsList.Clear();
+            ext.ActionsList.Add(new CarAction() { MoveAction = MoveAction.SmartMovement, Duration = int.Parse(timeTxt.Text)/*double.Parse(this.timeTxt.Text)*/});
+
+        }
+
+        private void paralaleCheckBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int x = RealMeta.isLeftParalel();
+            funcs.Log("isRP=" + x.ToString());
         }
 
 

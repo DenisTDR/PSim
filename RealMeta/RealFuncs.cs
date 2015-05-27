@@ -55,13 +55,13 @@ namespace PSim
         {
             if (engines == Engines.LeftEngines)
             {
-                SetEnginesSpeed(Engines.LeftEngines, Sens.SensSpate, viteza);
-                SetEnginesSpeed(Engines.RightEngines, Sens.SensFata, viteza);
+                SetEnginesSpeed(Engines.LeftEngines, Sens.SensFata, viteza);
+                SetEnginesSpeed(Engines.RightEngines, Sens.SensSpate, viteza);
             }
             else
             {
-                SetEnginesSpeed(Engines.LeftEngines, Sens.SensFata, viteza);
-                SetEnginesSpeed(Engines.RightEngines, Sens.SensSpate, viteza);
+                SetEnginesSpeed(Engines.LeftEngines, Sens.SensSpate, viteza);
+                SetEnginesSpeed(Engines.RightEngines, Sens.SensFata, viteza);
             }
             StopEnginesAfter(timp);
         }
@@ -86,10 +86,19 @@ namespace PSim
 
         public static void StopEnginesAfter(byte time)
         {
+            for (int i = 0; i < ext.cmdQueue.Count; i++)
+            {
+                if (ext.cmdQueue[i].UserData == "stopEngines")
+                {
+                    ext.cmdQueue.RemoveAt(i);
+                    i--;
+                }
+            }
             QueueEntry qe = new QueueEntry();
             qe.BackUpPeriod = qe.Period = time * 1000;
             qe.Repeat = false;
             qe.TheFunction += (QueueEntry qee, EventArgs e) => { StopEngines(); return true; };
+            qe.UserData = "stopEngines";
             ext.cmdQueue.Add(qe);
         }
 

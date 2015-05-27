@@ -7,6 +7,7 @@ namespace PSim
 {
 	public static class ext
 	{
+        
 		public static MapWindow MapWindow;
         public static Car TheCar;
 

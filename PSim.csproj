@@ -105,6 +105,9 @@
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="windows\NumericUpDown.xaml.cs">
+      <DependentUpon>NumericUpDown.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\SensorsWindow.xaml.cs">
       <AutoGen>false</AutoGen>
       <DependentUpon>SensorsWindow.xaml</DependentUpon>
@@ -177,6 +180,10 @@
     <Page Include="windows\LogsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="windows\NumericUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="windows\SensorsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

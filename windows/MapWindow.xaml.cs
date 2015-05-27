@@ -343,7 +343,7 @@ namespace PSim
                 base.Width = actualHeight / funcs.getHWRatio() + width;
                 base.Height = actualHeight + height;
 
-                this.theCar.Width = 402 * actualHeight / funcs.getRH();
+                this.theCar.Width = 402 * actualHeight / funcs.getRH(); //402
                 this.theCar.Height = 470 * actualHeight / funcs.getRH();
 
 				this.drawLimits();
@@ -361,6 +361,7 @@ namespace PSim
 
         private void RefreshShits()
         {
+            this.Title = ext.TheCar.ActualWidth.ToString() + ", " + ext.TheCar.ActualHeight.ToString();
             double midLeft = this.theCar.MidLeft + this.theCar.ActualHeight / 2 * Math.Sin(this.theCar.RotationAngleRads) + this.theCar.ActualWidth / 4 * Math.Sin(this.theCar.RotationAngleRads - 1.5707963267949);
             double midTop = this.theCar.MidTop - this.theCar.ActualHeight / 2 * Math.Cos(this.theCar.RotationAngleRads) - this.theCar.ActualWidth / 4 * Math.Cos(this.theCar.RotationAngleRads - 1.5707963267949);
             ext.distanceSensors[0].Location = new Point(midLeft, midTop);
@@ -406,7 +407,7 @@ namespace PSim
             lRight.X1 = theCar.MidLeft
                 + Math.Cos(theCar.RotationAngleRads) * theCar.Width / 2;
 
-
+            
             lRight.Y2 = theCar.MidTop - Math.Cos(theCar.RotationAngleRads) * theCar.RightEnginesResult
                 + Math.Sin(theCar.RotationAngleRads) * theCar.Width / 2;
             lRight.X2 = theCar.MidLeft + Math.Sin(theCar.RotationAngleRads) * theCar.RightEnginesResult
