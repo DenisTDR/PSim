@@ -35,12 +35,13 @@ namespace PSim
 
 		public MapWindow()
 		{
-			this.InitializeComponent();
+            this.InitializeComponent();
+            (ext.LogsWindow = new LogsWindow()).Show();
             ext.TheCar = theCar = new Car();
             theCar.HorizontalAlignment = HorizontalAlignment.Left;
             theCar.VerticalAlignment = VerticalAlignment.Top;
             theCar.LeftEnginesForce = theCar.RightEnginesForce = 1;
-            theCar.MaxEngineForce = 255 / 5;
+            theCar.MaxEngineForce = 1;
             theCar.EngineRatio = 1;
             this.bigGrid.Children.Add(theCar);
 
@@ -61,7 +62,6 @@ namespace PSim
 			SensorsWindow sensorsWindow = new SensorsWindow();
 			ext.SensorsWindow = sensorsWindow;
 			sensorsWindow.Show();
-            (ext.LogsWindow = new LogsWindow()).Show();
             (ext.GraphicForm = new GraphicForm()).Show();
 			base.Closed += new EventHandler(this.MapWindow_Closed);
 			base.SizeChanged += new SizeChangedEventHandler(this.MapWindow_SizeChanged);
@@ -108,33 +108,41 @@ namespace PSim
 			else
 			{
 				ext.distanceSensors.Clear();
-			}
+            }
 			List<DistanceSensor> distanceSensors = ext.distanceSensors;
 			DistanceSensor distanceSensor = new DistanceSensor()
 			{
                 Name = "FrontRight",
-				Angle = 45
-			};
+				Angle = 45,
+                Min = 100,
+                Max = 800
+            };
 			distanceSensors.Add(distanceSensor);
 			List<DistanceSensor> distanceSensors1 = ext.distanceSensors;
 			DistanceSensor distanceSensor1 = new DistanceSensor()
 			{
                 Name = "FrontLeft",
-				Angle = -45
+				Angle = -45,
+                Min = 100,
+                Max = 800
 			};
 			distanceSensors1.Add(distanceSensor1);
 			List<DistanceSensor> distanceSensors2 = ext.distanceSensors;
 			DistanceSensor distanceSensor2 = new DistanceSensor()
 			{
 				Name = "SideRight",
-				Angle = 90
+				Angle = 90,
+                Min = 40,
+                Max = 400
 			};
 			distanceSensors2.Add(distanceSensor2);
 			List<DistanceSensor> distanceSensors3 = ext.distanceSensors;
 			DistanceSensor distanceSensor3 = new DistanceSensor()
 			{
 				Name = "SideLeft",
-				Angle = -90
+                Angle = -90,
+                Min = 40,
+                Max = 400
 			};
 			distanceSensors3.Add(distanceSensor3);
 			foreach (DistanceSensor distanceSensor4 in ext.distanceSensors)
@@ -191,20 +199,18 @@ namespace PSim
             ext.ParkingType = _parkingType;
             if (ext.ParkingType == ParkingType.LateralParking)
             {
-                bigGrid.Background = new ImageBrush(new BitmapImage(new Uri(
-                    System.Windows.Navigation.BaseUriHelper.GetBaseUri(this), "../images/lpa_2537.6093.jpg")));
-                theCar.RotationAngle = 180;                
+                bigGrid.Background = new ImageBrush(ext.laterallParkingImage);                
+                theCar.RotationAngle = 180.01;                
             }
             else
             {
-                bigGrid.Background = new ImageBrush(new BitmapImage(new Uri(
-                    System.Windows.Navigation.BaseUriHelper.GetBaseUri(this), "../images/pa_4659.4771.jpg")));
-                theCar.RotationAngle = 0;
+                bigGrid.Background = new ImageBrush(ext.bigParkingImage);
+                theCar.RotationAngle = 0.01;
             }
             foreach (Line line in this.lines)
                 this.bigGrid.Children.Remove(line);
             this.lines.Clear();
-            
+
             MapWindow_SizeChanged(null, null);
             if (ext.ParkingType == ParkingType.LateralParking)
             {
@@ -213,13 +219,13 @@ namespace PSim
             }
             else
             {
-                theCar.Left = 2120 * bigGrid.ActualHeight / funcs.getRH();
-                theCar.Top = 4300 * bigGrid.ActualHeight / funcs.getRH(); // 4553
-
+                
+                theCar.Left = 2140 * bigGrid.ActualHeight / funcs.getRH();
+                theCar.Top = 4500 * bigGrid.ActualHeight / funcs.getRH(); // 4553
             } 
             lastBigGridWidth = bigGrid.ActualWidth;
             
-            tmpRefreshShitsTimes = 5;
+            tmpRefreshShitsTimes = 1;
 
             if (ext.MapSettingsWindow != null)
                 ext.MapSettingsWindow.RefreshShits();
@@ -343,8 +349,8 @@ namespace PSim
                 base.Width = actualHeight / funcs.getHWRatio() + width;
                 base.Height = actualHeight + height;
 
-                this.theCar.Width = 402 * actualHeight / funcs.getRH(); //402
-                this.theCar.Height = 470 * actualHeight / funcs.getRH();
+                this.theCar.Width = funcs.imagePixelsToWPFPixels(funcs.GetCarRW);// 401.0 *actualHeight / funcs.getRH(); 
+                this.theCar.Height = funcs.imagePixelsToWPFPixels(funcs.GetCarRH); ;// 471.0 * actualHeight / funcs.getRH();
 
 				this.drawLimits();
 				if (this.lastBigGridWidth != -1)
@@ -353,9 +359,13 @@ namespace PSim
 					this.theCar.Top = this.theCar.Top * actualWidth / this.lastBigGridWidth;
 				}
 				this.lastBigGridWidth = actualWidth;
-				this.theCar.RotationAngle = this.theCar.RotationAngle;
+                this.theCar.RotationAngle = this.theCar.RotationAngle;
                 this.RefreshShits();
                 this.resizing = false;
+
+                funcs.MapActualHeight = bigGrid.ActualHeight;
+                funcs.MapActualWidth = bigGrid.ActualWidth;
+                
 			}
 		}
 

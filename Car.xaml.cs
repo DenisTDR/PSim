@@ -124,7 +124,10 @@ namespace PSim
         }
         public double LeftEnginesResult
         {
-            get { return LeftEnginesForce * LeftEnginesSense * MaxEngineForce * this.Height * 150 / 2 / 100; }
+            get
+            {
+                return LeftEnginesForce * LeftEnginesSense * MaxEngineForce * this.ActualHeight * 150 / 2 / 100;
+            }
         }
         public double RightEnginesForce
         {
@@ -138,7 +141,7 @@ namespace PSim
         }
         public double RightEnginesResult
         {
-            get { return RightEnginesForce * RightEnginesSense * MaxEngineForce * this.Height * 150 / 2 / 100; ; }
+            get { return RightEnginesForce * RightEnginesSense * MaxEngineForce * this.ActualHeight * 150 / 2 / 100; ; }
         }
         double _maxEngineForce;
         public double MaxEngineForce
@@ -152,6 +155,8 @@ namespace PSim
         {
             try
             {
+                if (ext.CarSettingsWindow == null || ext.MapWindow == null)
+                    return;
                 ext.CarSettingsWindow.reloadCarProps();
                 ext.MapWindow.refreshMechanicCouple();
             }
@@ -275,7 +280,7 @@ namespace PSim
             else if (LeftEnginesForce == 1 && RightEnginesForce == 1)
             {
                 Move(this.RezultantaForte * this.CuantaRezultantaForte, false);
-                funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round());
+                //funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round());
             }
             else
             {

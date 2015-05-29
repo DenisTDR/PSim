@@ -383,24 +383,163 @@ namespace PSim
         public static void initTest1()
         {
             QueueEntry qe = new QueueEntry();
-            qe.BackUpPeriod = qe.Period = 250;
+            qe.BackUpPeriod = qe.Period = 50;
             qe.Repeat = true;
             qe.TheFunction += test1Entry;
             state5 = 0;
             ext.cmdQueue.Add(qe);
         }
         static int state5;
+        static bool eInDreptulUneiIesiri = false;
+        static int iesiriTrecute = 0;
+        static bool numaraIesiri = false;
+        static double lrd=-1;
+        
         public static bool test1Entry(QueueEntry qe, EventArgs e)
         {
-            funcs.Log("left: " + funcs.getSensorValue(Sensor.SideLeft));
+            double frontLeft = RealFuncs.getSensorValue(Sensor.FrontLeft);
+            double frontRight = RealFuncs.getSensorValue(Sensor.FrontRight);
+            double sideLeft = RealFuncs.getSensorValue(Sensor.SideLeft);
+            double sideRight = RealFuncs.getSensorValue(Sensor.SideRight);
+            if(numaraIesiri)
+                if (eInDreptulUneiIesiri)
+                {
+                    if (sideRight < 300)
+                    {
+                        iesiriTrecute++;
+                        funcs.Log("iesiriTrecute=" + iesiriTrecute.ToString());
+                        eInDreptulUneiIesiri = false;
+                    }
+                }
+                else
+                {
+                    if (sideRight > 300)
+                        eInDreptulUneiIesiri = true;
+                }
+            int ip;
+            //funcs.Log("st=" + state5.ToString());
             switch (state5)
             {
                 case 0:
                     state5 = 1;
-                    //RealFuncs.goFront(30, 200);
+                    RealFuncs.goFront(30, 250);
                     break;
                 case 1:
-                    
+                    if (frontLeft < 170 || frontRight < 170)
+                    {
+                        RealFuncs.rotirePeLoc(30, 250, Engines.LeftEngines);
+                        state5 = 2;
+                    }
+                    break;
+                case 2:
+                    ip = isLeftParalel();
+                    switch (ip)
+                    {
+                        case 0:
+                            RealFuncs.goFront(30, 250);
+                            state5 = 4;
+                            break;
+                        case 1:
+                            RealFuncs.rotirePeLoc(30, 50, Engines.RightEngines);
+                            state5 = 3;
+                            break;
+                        case 2:
+                            RealFuncs.rotirePeLoc(30, 250, Engines.RightEngines);
+                            state5 = 3;
+                            break;
+                        default: break;
+                    }
+                    break;
+                case 3:
+                    ip = isLeftParalel();
+                    switch (ip)
+                    {
+                        case 0:
+                            RealFuncs.goFront(30, 250);
+                            state5 = 4;
+                            break;
+                        case -1:
+                            RealFuncs.rotirePeLoc(30, 50, Engines.LeftEngines);
+                            state5 = 2;
+                            break;
+                        case -2:
+                            RealFuncs.rotirePeLoc(30, 250, Engines.LeftEngines);
+                            state5 = 2;
+                            break;
+                        default: break;
+                    }
+                    break;
+                case 4:
+                    numaraIesiri = true;
+                    if (frontLeft < 200 || frontRight < 200)
+                    {
+                        RealFuncs.rotirePeLoc(30, 250, Engines.RightEngines);
+                        state5 = 6;
+                    }
+                    break;
+                case 5:
+                    ip = isRightParalel();
+                    switch (ip)
+                    {
+                        case 0:
+                            RealFuncs.goFront(30, 250);
+                            state5 = 4;
+                            break;
+                        case -1:
+                            RealFuncs.rotirePeLoc(30, 50, Engines.RightEngines);
+                            state5 = 6;
+                            break;
+                        case -2:
+                            RealFuncs.rotirePeLoc(30, 250, Engines.RightEngines);
+                            state5 = 6;
+                            break;
+                        default: break;
+                    }
+                    break;
+                case 6:
+                    ip = isRightParalel();
+                    switch (ip)
+                    {
+                        case 0:
+                            RealFuncs.goFront(30, 250);
+                            state5 = 4;
+                            break;
+                        case 1:
+                            RealFuncs.rotirePeLoc(30, 50, Engines.LeftEngines);
+                            state5 = 5;
+                            break;
+                        case 2:
+                            RealFuncs.rotirePeLoc(30, 250, Engines.LeftEngines);
+                            state5 = 5;
+                            break;
+                        default: break;
+                    }
+                    break;
+                case 7:
+                    if(frontRight>500)
+                    {
+                        state5 = 8;
+                    }
+                    break;
+                case 8:
+                    if (frontRight < 700)
+                    {
+                        state5 = 9;
+                    }
+                    break;
+                case 9:
+                    funcs.Log("lrd=" + lrd.ToString() + "\nfr=" + frontRight.ToString());
+                    if(lrd==-1)
+                    {
+                        lrd = frontRight;
+                        break;
+                    }
+                    if (lrd < frontRight)
+                    {
+                        RealFuncs.goFrontRight(3,250);
+                        state5 = 10;
+                    }
+                    lrd = frontRight;
                     break;
             }
             return false;
@@ -439,7 +578,6 @@ namespace PSim
                     return rez > epsilon ? 1 : -1;
             else
                 return rez > warningEpsilon ? 2 : -2;
-            
         }
     }
 }

@@ -80,16 +80,17 @@ namespace PSim
             return limits;
         }
 
+        public static double bigParkingHWRatio, lateralParkingHWRatio;
         public static double getHWRatio()
         {
-            return ext.ParkingType == ParkingType.BigParking ? 1.024 : 2.401655;
+            return ext.ParkingType == ParkingType.BigParking ? bigParkingHWRatio : lateralParkingHWRatio;
         }
         public static int getRH()
         {
-            return ext.ParkingType == ParkingType.BigParking ? 4771 : 6093;
+            return ext.ParkingType == ParkingType.BigParking ? ext.bigParkingImage.PixelHeight : ext.laterallParkingImage.PixelHeight;
         }
-        public static int GetCarRW { get { return 402; } }
-        public static int GetCarRH { get { return 470; } }
+        public static int GetCarRW { get { return 401; } }
+        public static int GetCarRH { get { return 471; } }
 
         public static void TranslateLimitList(List<Limit> list, Point p, Brush Color)
         {
@@ -103,6 +104,25 @@ namespace PSim
                 ext.LogsWindow.AddLog(log);
             }
         }
+        public static double MapActualHeight { get; set; }
+        public static double MapActualWidth { get; set; }
+        public static double wpfPixelsToCMs(double wpfPixels)
+        {
+            return wpfPixelsToImagePixels(wpfPixels) * 2500.0 / 5904.0;
+        }
+        public static double cmsToWpfPixels(double cms)
+        {
+            return imagePixelsToWPFPixels(cms * 5904.0 / 2500.0);
+        }
+        public static double imagePixelsToWPFPixels(double imagePixels)
+        {
+            return imagePixels * MapActualHeight / funcs.getRH();
+        }
+        public static double wpfPixelsToImagePixels(double wpfPixels)
+        {
+            return wpfPixels * funcs.getRH() / MapActualHeight;
+        }
+
 
         public static Point Round(this Point p, int dec = 0)
         {

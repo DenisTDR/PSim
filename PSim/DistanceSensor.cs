@@ -127,17 +127,17 @@ namespace PSim
 			get;
 			set;
 		}
-
+        double _max, _min;
 		public double Max
 		{
-			get;
-			set;
+            get { return funcs.cmsToWpfPixels( _max); }
+            set { _max = value; }
 		}
 
 		public double Min
 		{
-			get;
-			set;
+            get { return funcs.cmsToWpfPixels(_min); }
+            set { _min = value; }
 		}
 
 		public string Name

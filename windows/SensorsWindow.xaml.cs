@@ -25,12 +25,10 @@ namespace PSim
 		{
 			this.namesListBox.Items.Clear();
 			this.valuesListBox.Items.Clear();
-			foreach (DistanceSensor distanceSensor in ext.distanceSensors)
-			{
-				this.namesListBox.Items.Add(distanceSensor.Name);
-				ItemCollection items = this.valuesListBox.Items;
-				double num = Math.Round(distanceSensor.Distance, 2);
-				items.Add(num.ToString());
+            for(int i=0;i<ext.distanceSensors.Count;i++){
+				this.namesListBox.Items.Add(ext.distanceSensors[i].Name);
+                double num = RealFuncs.getSensorValue((Sensor)i).Round();
+				this.valuesListBox.Items.Add(num.ToString());
 			}
             ext.GraphicForm.tPanel1.AddTPoint(ext.distanceSensors[2].Distance);
 			base.Height = (double)(80 + 25 * ext.distanceSensors.Count);

@@ -8,7 +8,7 @@
         <TextBox x:Name="timeTxt" HorizontalAlignment="Left" Height="23" Margin="148.5,14,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="31" />
         <Label Content="Deviation Error Percent:" HorizontalAlignment="Left" Margin="11,119,0,0" VerticalAlignment="Top" Width="139" />
         <TextBox x:Name="deviationPercentTxt" HorizontalAlignment="Left" IsReadOnly="True" Height="22" Margin="149,123,0,0" TextWrapping="Wrap" Text="2.5" VerticalAlignment="Top" Width="31" RenderTransformOrigin="1.462,2.319" TextAlignment="Right" />
-        <Slider HorizontalAlignment="Left" Margin="7,150,0,0" VerticalAlignment="Top" Width="191.6" Minimum="0" Maximum="50" SmallChange="1" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="2.5" ValueChanged="Slider_ValueChanged" />
+        <Slider HorizontalAlignment="Left" Margin="7,150,0,0" VerticalAlignment="Top" Width="191.6" Minimum="0" Maximum="50" SmallChange="1" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="0" ValueChanged="Slider_ValueChanged" />
         <Label Content="%" HorizontalAlignment="Left" Margin="180,118,0,0" VerticalAlignment="Top" Width="22" />
         <Label Content="Front Sensors Angle:" HorizontalAlignment="Left" Margin="16,181,0,0" VerticalAlignment="Top" Width="123" />
         <TextBox x:Name="frontSensorsAngleTxt" HorizontalAlignment="Left" IsReadOnly="True" Height="22" Margin="133,185,0,0" TextWrapping="Wrap" Text="2.5" VerticalAlignment="Top" Width="31" RenderTransformOrigin="1.462,2.319" TextAlignment="Right" />
@@ -50,8 +50,8 @@
         <Control:NumericUpDown x:Name="parallelCheckToleranceNumUD" HorizontalAlignment="Left" Margin="157.6,236.81,0,0" VerticalAlignment="Top" 
                                Max="30"
                                Min="0"
-                               Value="10"
-                               Height="24" Width="44.4"/>
+                               Value="2"
+                               Height="24" Width="46.8"/>
         <Label Content="Paralel Warning Tol:" HorizontalAlignment="Left" Margin="11,266.65,0,0" VerticalAlignment="Top" Width="139" />
         <Control:NumericUpDown x:Name="parallelWarningToleranceNumUD" HorizontalAlignment="Left" Margin="157.6,265.81,0,0" VerticalAlignment="Top" 
         	Max="50"
