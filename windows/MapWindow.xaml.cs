@@ -221,7 +221,7 @@ namespace PSim
             {
                 
                 theCar.Left = 2140 * bigGrid.ActualHeight / funcs.getRH();
-                theCar.Top = 4500 * bigGrid.ActualHeight / funcs.getRH(); // 4553
+                theCar.Top = 600;// 4200 * bigGrid.ActualHeight / funcs.getRH(); // 4553  4500
             } 
             lastBigGridWidth = bigGrid.ActualWidth;
             
@@ -276,7 +276,7 @@ namespace PSim
 		{
 			Application.Current.Shutdown();
 		}
-
+        bool upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
 		private void MapWindow_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (this.keyboardAction == null)
@@ -287,33 +287,41 @@ namespace PSim
 				};
 			}
 			if (e.Key == Key.Up || e.Key==Key.W)
-			{
-				this.keyboardAction.MoveAction = MoveAction.Forward;
-			}
+                upPressed = true;
+				//this.keyboardAction.MoveAction = MoveAction.Forward;
             else if (e.Key == Key.Down || e.Key == Key.S)
-			{
-				this.keyboardAction.MoveAction = MoveAction.Backward;
-			}
+                downPressed = true;
+				//this.keyboardAction.MoveAction = MoveAction.Backward
             else if (e.Key == Key.Left || e.Key == Key.A)
-			{
-				this.keyboardAction.Direction = Direction.Left;
-			}
+                leftPressed = true;
+                //this.keyboardAction.Direction = Direction.Left;
             else if (e.Key == Key.Right || e.Key == Key.D)
-			{
-				this.keyboardAction.Direction = Direction.Right;
-			}
+                rightPressed = true;
+                //this.keyboardAction.Direction = Direction.Right;
+            refreshForcesCozKeyboard();
+
             if ((e.Key == Key.Up || e.Key == Key.W || e.Key == Key.Down || e.Key == Key.S) && !ext.ActionsList.Contains(this.keyboardAction))
 			{
 				if (this.keyboardAction.Duration < 50)
 				{
-					this.keyboardAction.Duration = 1000;
+					//this.keyboardAction.Duration = 1000;
 				}
-				ext.ActionsList.Add(this.keyboardAction);
+				//ext.ActionsList.Add(this.keyboardAction);
 			}
 		}
 
 		private void MapWindow_KeyUp(object sender, KeyEventArgs e)
 		{
+            if (e.Key == Key.Up || e.Key == Key.W)
+                upPressed = false;
+            if (e.Key == Key.Down || e.Key == Key.S)
+                downPressed = false;
+            if (e.Key == Key.Left || e.Key == Key.A)
+                leftPressed = false;
+            if (e.Key == Key.Right || e.Key == Key.D)
+                rightPressed = false;
+            refreshForcesCozKeyboard();
+
             if ((e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.W || e.Key == Key.S))
 			{
 				if (this.keyboardAction != null && ext.ActionsList.Contains(this.keyboardAction))
@@ -329,7 +337,73 @@ namespace PSim
 				}
 			}
 		}
+        void refreshForcesCozKeyboard()
+        {
+            if (upPressed)
+            {
+                ext.TheCar.LeftEnginesSense = 1;
+                ext.TheCar.RightEnginesSense = 1;
+                if (rightPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 0;
+                }
+                else if (leftPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 0;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+                else
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+            }
+            else if (downPressed)
+            {
+                ext.TheCar.LeftEnginesSense = -1;
+                ext.TheCar.RightEnginesSense = -1;
+                if (rightPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 0;
+                }
+                else if (leftPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 0;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+                else
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+            }
+            else if (leftPressed)
+            {
+                ext.TheCar.LeftEnginesSense = -1;
+                ext.TheCar.RightEnginesSense = 1;
+                ext.TheCar.LeftEnginesForce = 1;
+                ext.TheCar.RightEnginesForce = 1;
+            }
+            else if (rightPressed)
+            {
+                ext.TheCar.LeftEnginesSense = 1;
+                ext.TheCar.RightEnginesSense = -1;
+                ext.TheCar.LeftEnginesForce = 1;
+                ext.TheCar.RightEnginesForce = 1;
+            }
+            else
+            {
+                ext.TheCar.LeftEnginesForce = 0;
+                ext.TheCar.RightEnginesForce = 0;
+                ext.ActionsList.Clear();
+                return;
+            }
+            ext.ActionsList.Clear();
+            ext.ActionsList.Add(new CarAction() { MoveAction = MoveAction.SmartMovement, Duration = 25 /*double.Parse(this.timeTxt.Text)*/});
 
+        }
 		private void MapWindow_Loaded(object sender, RoutedEventArgs e)
 		{
             switchParking(ext.ParkingType);

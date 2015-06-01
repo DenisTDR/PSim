@@ -29,7 +29,9 @@ namespace PSim
         void Car_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Polygon pointCollections = this.thePolygon;
-            Point[] point = new Point[] { new Point(base.Width / 2, base.Height / 5), new Point(base.Width / 4, base.Height * 3 / 4), new Point(base.Width * 3 / 4, base.Height * 3 / 4) };
+            Point[] point = new Point[] { new Point(polygonGrid.ActualWidth / 2, polygonGrid.ActualHeight / 5),
+                new Point(polygonGrid.ActualWidth / 4, polygonGrid.ActualHeight * 3 / 4), 
+                new Point(polygonGrid.ActualWidth * 3 / 4, polygonGrid.ActualHeight * 3 / 4) };
             pointCollections.Points = new PointCollection(point);
         }
 
@@ -268,6 +270,7 @@ namespace PSim
                 return 5 * this.Width / funcs.GetCarRW;
             }
         }
+
         public void translateRotateCuplu()
         {
             if (RezultantaForte == 0)
@@ -277,9 +280,10 @@ namespace PSim
                 this.RotationAngle += angle;
 
             }
-            else if (LeftEnginesForce == 1 && RightEnginesForce == 1)
+            else if (LeftEnginesForce == RightEnginesForce )
             {
                 Move(this.RezultantaForte * this.CuantaRezultantaForte, false);
+                _distanta_parcursa += Math.Abs(this.RezultantaForte * this.CuantaRezultantaForte);
                 //funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round());
             }
             else
@@ -296,11 +300,17 @@ namespace PSim
                 angle = -MomentRotatie / (3 * this.MaxEngineForce);
 
                 Move(directLength, false);
+                _distanta_parcursa += Math.Abs(directLength);
 
                 this.RotationAngle += angle*2;
 
                 //funcs.Log("d: " + (this.RezultantaForte * this.CuantaRezultantaForte).Round() + "  dl: "+directLength.Round()+"  angl: " + angle.Round());
             }
+        }
+        double _distanta_parcursa = 0;
+        public double DistantaParcursa
+        {
+            get { return funcs.wpfPixelsToCMs(_distanta_parcursa); }
         }
 
     }
