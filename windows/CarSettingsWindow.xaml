@@ -50,13 +50,13 @@
         <Control:NumericUpDown x:Name="parallelCheckToleranceNumUD" HorizontalAlignment="Left" Margin="157.6,236.81,0,0" VerticalAlignment="Top" 
                                Max="30"
                                Min="0"
-                               Value="2"
+                               Value="3"
                                Height="24" Width="46.8"/>
         <Label Content="Paralel Warning Tol:" HorizontalAlignment="Left" Margin="11,266.65,0,0" VerticalAlignment="Top" Width="139" />
         <Control:NumericUpDown x:Name="parallelWarningToleranceNumUD" HorizontalAlignment="Left" Margin="157.6,265.81,0,0" VerticalAlignment="Top" 
         	Max="50"
         	Min="10"
-        	Value="25"
+        	Value="15"
         	Height="24" Width="44.4"/>
 
     </Grid>

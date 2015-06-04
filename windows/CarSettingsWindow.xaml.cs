@@ -222,7 +222,7 @@ namespace PSim
 
         private void executeCode1Btn_Click(object sender, RoutedEventArgs e)
         {
-            RealMeta.initTest1();
+            RealMeta.initMersConturInchis();
         }
 
         private void abortBtn_Click(object sender, RoutedEventArgs e)
@@ -245,7 +245,7 @@ namespace PSim
 
         private void paralaleCheckBtn_Click(object sender, RoutedEventArgs e)
         {
-            int x = RealMeta.isLeftParalel();
+            int x = (int)RealMeta.isLeftParalel();
             funcs.Log("isRP=" + x.ToString());
         }
 

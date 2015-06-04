@@ -407,6 +407,15 @@ namespace PSim
 		private void MapWindow_Loaded(object sender, RoutedEventArgs e)
 		{
             switchParking(ext.ParkingType);
+            System.Windows.Forms.Timer tmr = new System.Windows.Forms.Timer();
+            tmr.Interval = 1000;
+            tmr.Tick += (object sender2, EventArgs e2) =>
+            {
+                tmr.Stop();
+                tmr.Dispose();
+                //RealMeta.initMersConturInchis();
+            };
+            tmr.Start();
 		}
 
 		private void MapWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -445,7 +454,6 @@ namespace PSim
 
         private void RefreshShits()
         {
-            this.Title = ext.TheCar.ActualWidth.ToString() + ", " + ext.TheCar.ActualHeight.ToString();
             double midLeft = this.theCar.MidLeft + this.theCar.ActualHeight / 2 * Math.Sin(this.theCar.RotationAngleRads) + this.theCar.ActualWidth / 4 * Math.Sin(this.theCar.RotationAngleRads - 1.5707963267949);
             double midTop = this.theCar.MidTop - this.theCar.ActualHeight / 2 * Math.Cos(this.theCar.RotationAngleRads) - this.theCar.ActualWidth / 4 * Math.Cos(this.theCar.RotationAngleRads - 1.5707963267949);
             ext.distanceSensors[0].Location = new Point(midLeft, midTop);

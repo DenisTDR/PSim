@@ -165,26 +165,30 @@ namespace PSim
 
 		public void RefreshVisual()
 		{
-			Ellipse start = this.Start;
-			Point location = this.Location;
-			double x = location.X - this.Start.ActualWidth / 2;
-			location = this.Location;
-			start.Margin = new Thickness(x, location.Y - this.Start.ActualHeight / 2, 0, 0);
-			this.Ray.X1 = this.Location.X;
-			this.Ray.Y1 = this.Location.Y;
-			Point hit = this.Hit;
-			this.Stop.Margin = new Thickness(hit.X - this.Stop.ActualWidth / 2, hit.Y - this.Stop.ActualHeight / 2, 0, 0);
-			this.Ray.X2 = hit.X;
-			this.Ray.Y2 = hit.Y;
-			double distance = this.Distance;
-			if ((distance < this.Min ? false : distance + 2 <= this.Max))
-			{
-				this.Ray.Stroke = Brushes.Blue;
-			}
-			else
-			{
-				this.Ray.Stroke = Brushes.Red;
-			}
+            try
+            {
+                Ellipse start = this.Start;
+                Point location = this.Location;
+                double x = location.X - this.Start.ActualWidth / 2;
+                location = this.Location;
+                start.Margin = new Thickness(x, location.Y - this.Start.ActualHeight / 2, 0, 0);
+                this.Ray.X1 = this.Location.X;
+                this.Ray.Y1 = this.Location.Y;
+                Point hit = this.Hit;
+                this.Stop.Margin = new Thickness(hit.X - this.Stop.ActualWidth / 2, hit.Y - this.Stop.ActualHeight / 2, 0, 0);
+                this.Ray.X2 = hit.X;
+                this.Ray.Y2 = hit.Y;
+                double distance = this.Distance;
+                if ((distance < this.Min ? false : distance + 2 <= this.Max))
+                {
+                    this.Ray.Stroke = Brushes.Blue;
+                }
+                else
+                {
+                    this.Ray.Stroke = Brushes.Red;
+                }
+            }
+            catch { }
 		}
 
 		public void setControls(Ellipse _start, Ellipse _stop, Line _ray)

@@ -22,7 +22,8 @@ namespace PSim
                  + "\nMax Engine Power: " + (ext.TheCar.MaxEngineForce * 100).Round() + "%"
                  + "\nLeftEngines:   Sens: " + (ext.TheCar.LeftEnginesSense > 0 ? "F" : "B") + "   Power: " + (ext.TheCar.LeftEnginesForce * 100).Round() + "%"
                  + "\nRightEngines: Sens: " + (ext.TheCar.RightEnginesSense > 0 ? "F" : "B") + "   Power: " + (ext.TheCar.RightEnginesForce * 100).Round() + "%"
-                 + "\nDistance: " + ext.TheCar.DistantaParcursa.Round().ToString();
+                 + "\nDistance: " + ext.TheCar.DistantaParcursa.Round().ToString()
+                 + "\nRightParalel: " + RealMeta.isRightParalel().ToString();
                  // + "\nSensor Offset: " + funcs.wpfPixelsToCMs((ext.TheCar.ActualWidth * 3 / 4)).Round().ToString();
 
         }

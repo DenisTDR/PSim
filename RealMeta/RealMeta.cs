@@ -214,7 +214,7 @@ namespace PSim
                     state3 = 1;
                     break;
                 case 1:
-                     pd = isRightParalel();
+                     pd = (int)isRightParalel();
                      if (pd == 0)
                      {
                          if (funcs.getSensorValue(Sensor.SideRight) < 12)
@@ -235,7 +235,7 @@ namespace PSim
                      }
                     break;
                 case 2:
-                    pd = isRightParalel();
+                    pd = (int)isRightParalel();
                     if (pd == 0)
                     {
                         RealFuncs.goFront(30, 230);
@@ -256,7 +256,7 @@ namespace PSim
                     state3 = 1;
                     break;
                 case 1:
-                    pd = isLeftParalel();
+                    pd = (int)isLeftParalel();
                     if (pd == 0)
                     {
                         if (funcs.getSensorValue(Sensor.SideRight) < 12)
@@ -277,7 +277,7 @@ namespace PSim
                     }
                     break;
                 case 2:
-                    pd = isLeftParalel();
+                    pd = (int)isLeftParalel();
                     if (pd == 0)
                     {
                         RealFuncs.goFront(30, 230);
@@ -331,7 +331,7 @@ namespace PSim
                         state4 = 3;
                     break;
                 case 3:
-                    ilp = isLeftParalel(3);
+                    ilp = (int)isLeftParalel(3);
                     funcs.Log("ilp=" + ilp.ToString());
                     if (ilp == 0)
                     {
@@ -358,7 +358,7 @@ namespace PSim
                     }
                     break;
                 case 5:
-                    irp = isRightParalel(3);
+                    irp = (int)isRightParalel(3);
                     if (irp == 0)
                     {
                         //RealFuncs.goFront(30, 150);
@@ -432,7 +432,7 @@ namespace PSim
                     }
                     break;
                 case 2:
-                    ip = isLeftParalel();
+                    ip = (int)isLeftParalel();
                     switch (ip)
                     {
                         case 0:
@@ -451,7 +451,7 @@ namespace PSim
                     }
                     break;
                 case 3:
-                    ip = isLeftParalel();
+                    ip = (int)isLeftParalel();
                     switch (ip)
                     {
                         case 0:
@@ -478,7 +478,7 @@ namespace PSim
                     }
                     break;
                 case 5:
-                    ip = isRightParalel();
+                    ip = (int)isRightParalel();
                     switch (ip)
                     {
                         case 0:
@@ -497,7 +497,7 @@ namespace PSim
                     }
                     break;
                 case 6:
-                    ip = isRightParalel();
+                    ip = (int)isRightParalel();
                     switch (ip)
                     {
                         case 0:
@@ -548,8 +548,255 @@ namespace PSim
         
         public static double ParallelTollerance { get; set; }
         public static double ParallelWarningTollerance { get; set; }
+
+
+
+        public static void initparalelParcare()
+        {
+            QueueEntry qe = new QueueEntry();
+            qe.BackUpPeriod = qe.Period = 100;
+            qe.Repeat = true;
+            qe.TheFunction += paralelParking;
+            stare = -1;
+            ext.cmdQueue.Add(qe);
+
+        }
+        static int stare = 0;
+        public static bool paralelParking(QueueEntry qe, EventArgs e)
+        {
+
+            double frontLeft = RealFuncs.getSensorValue(Sensor.FrontLeft);
+            double frontRight = RealFuncs.getSensorValue(Sensor.FrontRight);
+            double sideLeft = RealFuncs.getSensorValue(Sensor.SideLeft);
+            double sideRight = RealFuncs.getSensorValue(Sensor.SideRight);
+            funcs.Log("stare :" + stare.ToString());
+            switch (stare)
+            {
+                case -1:
+                    RealFuncs.goFront(60, 250);
+                    stare = 0;
+                    break;
+                case 0:
+                    if (sideRight < 100)
+                        stare = 1;
+                    break;
+                case 1:
+                    if (sideRight > 200)
+                    {
+                        RealFuncs.goFrontRight(60, 250);
+                        stare = 2;
+                    }
+                    break;
+                case 2:
+                    if (frontRight < 175)
+                    {
+                        RealFuncs.goFront(60, 175);
+                        stare = 3;
+                    }
+                    break;
+                case 3:
+                    if (sideRight < 220)
+                    {
+                        RealFuncs.rotirePeLoc(10, 175, Engines.RightEngines);
+                        stare = 4;
+                    }
+                    break;
+                case 4:
+                    if (sideRight < 80)
+                        stare = 5;
+                    break;
+                case 5:
+                    if (doRightParalel())
+                    {
+                        stare = 6;
+                        RealFuncs.goBackRight(10, 150);
+                        distantaParcursa(true);
+                    }
+                    break;
+                case 6:
+                    if (distantaParcursa() > 75)
+                    {
+                        stare = 7;
+                        distantaParcursa(true);
+                        RealFuncs.goBackLeft(10, 150);
+                    }
+                    break;
+                case 7:
+                    if (distantaParcursa() > 75)
+                    {
+                        stare = 8;
+                        distantaParcursa(true);
+                        RealFuncs.goFrontRight(10, 150);
+                    }
+                    break;
+                case 8:
+                    if (distantaParcursa() > 75)
+                    {
+                        stare = 9;
+                        distantaParcursa(true);
+                        RealFuncs.goFrontLeft(10, 150);
+                    }
+                    break;
+                case 9:
+                    if (distantaParcursa() > 75)
+                    {
+                        stare = 10;
+                        distantaParcursa(true);
+                        RealFuncs.goFront(10, 50);
+                    }
+                    break;
+                case 10:
+                    if (distantaParcursa() > 15)
+                    {
+                        stare = 11;
+                        RealFuncs.StopEngines();
+                        return true;
+                    }
+                    break;
+            }
+            return false;
+        }
+
+
+        static int state70;
+        public static void initMersConturInchis()
+        {
+            QueueEntry qe = new QueueEntry();
+            qe.BackUpPeriod = qe.Period = 100;
+            qe.Repeat = true;
+            qe.TheFunction += conturInchisSMF;
+            state70 = 0;
+            ext.cmdQueue.Add(qe);
+        }
         
-        public static int isRightParalel(int epsilon = -1, int warningEpsilon = -1)
+        static bool conturInchisSMF(QueueEntry qe, EventArgs e)
+        {
+            double frontLeft = RealFuncs.getSensorValue(Sensor.FrontLeft);
+            double frontRight = RealFuncs.getSensorValue(Sensor.FrontRight);
+            double sideLeft = RealFuncs.getSensorValue(Sensor.SideLeft);
+            double sideRight = RealFuncs.getSensorValue(Sensor.SideRight);
+            switch (state70)
+            {
+                case 0:
+                    state70 = 1;
+                    RealFuncs.goFront(30, 200);
+                    break;
+                case 1:
+                    if (frontLeft < 150 || frontRight < 150)
+                    {
+                        state70 = 2;
+                        RealFuncs.rotirePeLoc(30, 200, Engines.LeftEngines);
+                    }
+                    break;
+                case 2:
+                    if (sideLeft < 150)
+                    {
+                        state70 = 3;
+                        lastParallelResult = ParallelResult.Paralel;
+                    }
+                    break;
+                case 3:
+                    if (doLefetParalel())
+                    {
+                        state70 = 4;
+                        RealFuncs.goFront(30, 200);
+                    }
+                    break;
+                case 4:
+                    if (frontLeft < 150 || frontRight < 150)
+                    {
+                        state70 = 5;
+                        RealFuncs.rotirePeLoc(30, 200, Engines.RightEngines);
+                    }
+                    break;
+
+                case 5:
+                    if (sideRight < 150)
+                    {
+                        state70 = 6;
+                    }
+                    break;
+                case 6:
+                    if (doRightParalel())
+                    {
+                        RealFuncs.goFront(30, 200);
+                        state70 = 4;
+                    }
+                    break;
+
+
+            }
+
+            return false;
+        }
+
+
+        static double tmpDist = 0;
+        static double distantaParcursa(bool reset = false)
+        {
+            if (reset)
+                return tmpDist = ext.TheCar.DistantaParcursa;
+            else
+            {
+                return ext.TheCar.DistantaParcursa - tmpDist;
+            }
+        }
+        static ParallelResult lastParallelResult = ParallelResult.Paralel;
+        public static bool doRightParalel()
+        {
+            ParallelResult rp = isRightParalel();
+            if (rp == lastParallelResult)
+                return false;
+            lastParallelResult = rp;
+            switch (rp)
+            {
+                case ParallelResult.Paralel:
+                    RealFuncs.StopEngines();
+                    return true;
+                case ParallelResult.PreaApropiat:
+                    RealFuncs.rotirePeLoc(10, 175, Engines.RightEngines);
+                    break;
+                case ParallelResult.Apropiat:
+                    RealFuncs.rotirePeLoc(10, 90, Engines.RightEngines);
+                    break;
+                case ParallelResult.Departat:
+                    RealFuncs.rotirePeLoc(10, 90, Engines.LeftEngines);
+                    break;
+                case ParallelResult.PreaDepartat:
+                    RealFuncs.rotirePeLoc(10, 175, Engines.LeftEngines);
+                    break;
+            }
+            return false;
+        }
+
+        public static bool doLefetParalel()
+        {
+            ParallelResult rp = isLeftParalel();
+            if (rp == lastParallelResult)
+                return false;
+            lastParallelResult = rp;
+            switch (rp)
+            {
+                case ParallelResult.Paralel:
+                    RealFuncs.StopEngines();
+                    return true;
+                case ParallelResult.PreaApropiat:
+                    RealFuncs.rotirePeLoc(10, 175, Engines.LeftEngines);
+                    break;
+                case ParallelResult.Apropiat:
+                    RealFuncs.rotirePeLoc(10, 90, Engines.LeftEngines);
+                    break;
+                case ParallelResult.Departat:
+                    RealFuncs.rotirePeLoc(10, 90, Engines.RightEngines);
+                    break;
+                case ParallelResult.PreaDepartat:
+                    RealFuncs.rotirePeLoc(10, 175, Engines.RightEngines);
+                    break;
+            }
+            return false;
+        }
+
+        public static ParallelResult isRightParalel(int epsilon = -1, int warningEpsilon = -1)
         {
             if (epsilon < 0) epsilon = (int)ParallelTollerance;
             if (warningEpsilon < 0) warningEpsilon = (int)ParallelWarningTollerance;
@@ -559,7 +806,7 @@ namespace PSim
             return isParalel((int)rightVal, (int)frontRightVal, (int)(ext.TheCar.ActualWidth * 3 / 4), epsilon, warningEpsilon);
         }
 
-        public static int isLeftParalel(int epsilon = -1, int warningEpsilon = -1)
+        public static ParallelResult isLeftParalel(int epsilon = -1, int warningEpsilon = -1)
         {
             if (epsilon < 0) epsilon = (int)ParallelTollerance;
             if (warningEpsilon < 0) warningEpsilon = (int)ParallelWarningTollerance;
@@ -568,16 +815,24 @@ namespace PSim
             frontLeftVal = funcs.getSensorValue(Sensor.FrontLeft);
             return isParalel((int)leftVal, (int)frontLeftVal, (int)(ext.TheCar.ActualWidth * 3 / 4), epsilon, warningEpsilon);
         }
-        public static int isParalel(int sideValue, int frontValue, int sensorOffset, int epsilon, int warningEpsilon)
+       public enum ParallelResult
+        {
+            PreaApropiat,
+            Apropiat,
+            Paralel,
+            Departat,
+            PreaDepartat
+        }
+        public static ParallelResult isParalel(int sideValue, int frontValue, int sensorOffset, int epsilon, int warningEpsilon)
         {
             int rez = (frontValue - (sensorOffset * (int)Math.Pow(2, 9) / 362)) * 362 / (int)Math.Pow(2, 9) - sideValue;
             if (Math.Abs(rez) < warningEpsilon)
                 if (Math.Abs(rez) < epsilon)
-                    return 0;
+                    return ParallelResult.Paralel;
                 else
-                    return rez > epsilon ? 1 : -1;
+                    return rez > epsilon ? ParallelResult.Departat : ParallelResult.Apropiat;
             else
-                return rez > warningEpsilon ? 2 : -2;
+                return rez > warningEpsilon ? ParallelResult.PreaDepartat : ParallelResult.PreaApropiat;
         }
     }
 }
