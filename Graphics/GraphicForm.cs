@@ -20,6 +20,12 @@ namespace PSim
         void GraphicForm_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+            this.FormClosing += GraphicForm_FormClosing;
+        }
+
+        void GraphicForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ext.GraphicForm = null;
         }
 
         private void button1_Click(object sender, EventArgs e)

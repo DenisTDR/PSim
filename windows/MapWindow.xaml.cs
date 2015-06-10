@@ -221,7 +221,7 @@ namespace PSim
             {
                 
                 theCar.Left = 2140 * bigGrid.ActualHeight / funcs.getRH();
-                theCar.Top = 600;// 4200 * bigGrid.ActualHeight / funcs.getRH(); // 4553  4500
+                theCar.Top = 4500 * bigGrid.ActualHeight / funcs.getRH(); // 4553  4500
             } 
             lastBigGridWidth = bigGrid.ActualWidth;
             
@@ -298,11 +298,12 @@ namespace PSim
             else if (e.Key == Key.Right || e.Key == Key.D)
                 rightPressed = true;
                 //this.keyboardAction.Direction = Direction.Right;
-            refreshForcesCozKeyboard();
 
-            if ((e.Key == Key.Up || e.Key == Key.W || e.Key == Key.Down || e.Key == Key.S) && !ext.ActionsList.Contains(this.keyboardAction))
+            if ((e.Key == Key.Up || e.Key == Key.W || e.Key == Key.Down || e.Key == Key.S) 
+                ||(e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.A || e.Key == Key.D) )
 			{
-				if (this.keyboardAction.Duration < 50)
+                refreshForcesCozKeyboard();
+                if (this.keyboardAction.Duration < 50)
 				{
 					//this.keyboardAction.Duration = 1000;
 				}
@@ -320,21 +321,14 @@ namespace PSim
                 leftPressed = false;
             if (e.Key == Key.Right || e.Key == Key.D)
                 rightPressed = false;
-            refreshForcesCozKeyboard();
-
+            
             if ((e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.W || e.Key == Key.S))
 			{
-				if (this.keyboardAction != null && ext.ActionsList.Contains(this.keyboardAction))
-				{
-					ext.ActionsList.Remove(this.keyboardAction);
-				}
+                refreshForcesCozKeyboard();
 			}
             if ((e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.D || e.Key == Key.A))
 			{
-				if (this.keyboardAction != null)
-				{
-					this.keyboardAction.Direction = Direction.Straight;
-				}
+                refreshForcesCozKeyboard();
 			}
 		}
         void refreshForcesCozKeyboard()
@@ -452,7 +446,7 @@ namespace PSim
 			}
 		}
 
-        private void RefreshShits()
+        public void RefreshShits()
         {
             double midLeft = this.theCar.MidLeft + this.theCar.ActualHeight / 2 * Math.Sin(this.theCar.RotationAngleRads) + this.theCar.ActualWidth / 4 * Math.Sin(this.theCar.RotationAngleRads - 1.5707963267949);
             double midTop = this.theCar.MidTop - this.theCar.ActualHeight / 2 * Math.Cos(this.theCar.RotationAngleRads) - this.theCar.ActualWidth / 4 * Math.Cos(this.theCar.RotationAngleRads - 1.5707963267949);

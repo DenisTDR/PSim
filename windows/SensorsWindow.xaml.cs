@@ -30,7 +30,8 @@ namespace PSim
                 double num = RealFuncs.getSensorValue((Sensor)i).Round();
 				this.valuesListBox.Items.Add(num.ToString());
 			}
-            ext.GraphicForm.tPanel1.AddTPoint(ext.distanceSensors[2].Distance);
+            if (ext.GraphicForm != null)
+                ext.GraphicForm.tPanel1.AddTPoint(ext.distanceSensors[2].Distance);
 			base.Height = (double)(80 + 25 * ext.distanceSensors.Count);
 		}
 	}

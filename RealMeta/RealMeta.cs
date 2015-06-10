@@ -723,13 +723,209 @@ namespace PSim
                         state70 = 4;
                     }
                     break;
-
-
             }
 
             return false;
         }
 
+
+        public static void executeCode1ButtonPressed()
+        {
+           // teleport(2920, 2176, -75);
+            teleport(3559, 3590, 15);
+           initTesting4P2();
+           // initParcare();
+        }
+        public static void initTesting4P2()
+        {
+            QueueEntry qe = new QueueEntry();
+            qe.BackUpPeriod = qe.Period = 50;
+            qe.Repeat = true;
+            qe.TheFunction += qe_TheFunction;
+            ext.cmdQueue.Add(qe);
+        }
+
+
+        static bool qe_TheFunction(QueueEntry qe, EventArgs e)
+        {
+            switch (qe.State)
+            {
+                case 0:
+                    qe.State = 1;
+                    break;
+                case 1:
+                    if (doRightParalel())
+                    {
+                        qe.State = 2;
+                        drdTmp1 = 0;
+                        drdState = 0;
+                        //funcs.Log("paralleled");
+                    }
+                    break;
+                case 2:
+                    if (doRightDistance(65))
+                    {
+                        funcs.Log("doone");
+                        return true;
+                    }
+                    break;
+            }
+            return false;
+        }
+
+
+        static double drdTmp1 = 0;
+        static int drdState = 0;
+        static ParallelResult drdpr;
+        static double angle1;
+        static double dp1;
+        public static bool doRightDistance(double dist, double epsilon = 10)
+        {
+            double distRight = RealFuncs.getSensorValue(Sensor.SideRight);
+
+            switch (drdState)
+            {
+                case 0:
+                    if (Math.Abs(distRight - dist) < epsilon)
+                        return true;
+                    angle1 = (int)(Math.Abs(distRight - dist)) / 1.5;
+                    drdTmp1 = (distRight + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2)) / Math.Cos(angle1 * Math.PI / 180);
+                    if (distRight > dist)
+                        drdpr = ParallelResult.PreaDepartat;
+                    else
+                        drdpr = ParallelResult.PreaApropiat;
+                    RealFuncs.rotirePeLoc(30, 60, Engines.RightEngines);
+                    drdState = 1;
+                    break;
+
+                case 1:
+                    //funcs.Log("drdtmp: " + drdTmp1.Round(2).ToString() + "   dr:" + distRight.Round().ToString());
+                    if ((distRight + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2)) > drdTmp1)
+                    {
+                        RealFuncs.StopEngines();
+                        drdState = 2;
+                    }
+                    break;
+                case 2:
+                    drdTmp1 = (dist + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2)) / Math.Cos(angle1 * Math.PI / 180);
+                    distantaParcursa(true);
+                    if (drdpr == ParallelResult.PreaApropiat)
+                    { RealFuncs.goFront(5, 60); drdState = 3; }
+                    else { RealFuncs.goBack(5, 60); drdState = 4; }
+                    //funcs.Log("drdtmp:" + drdTmp1.ToString());
+                    break;
+                case 3:
+                    if (distRight + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2) > drdTmp1)
+                    {
+                        RealFuncs.StopEngines();
+                        drdState = 5;
+                        dp1 = distantaParcursa();
+                    }
+                    break;
+                case 4:
+                    if (distRight + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2) < drdTmp1)
+                    {
+                        RealFuncs.StopEngines(); 
+                        drdState = 5;
+                        dp1 = distantaParcursa();
+                    }
+                    break;
+                case 5:
+                    if (doRightParalel())
+                    {
+                        if (drdpr == ParallelResult.PreaApropiat)
+                        { RealFuncs.goBack(10, 60); drdState = 6; }
+                        else { RealFuncs.goFront(10, 60); drdState = 6; }
+                        distantaParcursa(true);
+                    }
+                    break;
+                case 6:
+                    if (distantaParcursa() > dp1 * Math.Cos(angle1 * Math.PI / 180))
+                    {
+                        RealFuncs.StopEngines();
+                        funcs.Log("cw: " + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth).ToString());
+                        return true;
+                    }
+                    break;
+            }
+
+
+            return false;
+        }
+
+        public static bool doLeftDistance(double dist, double epsilon = 10)
+        {
+            double distLeft = RealFuncs.getSensorValue(Sensor.SideLeft);
+
+            switch (drdState)
+            {
+                case 0:
+                    if (Math.Abs(distLeft - dist) < epsilon)
+                        return true;
+                    angle1 = (int)(Math.Abs(distLeft - dist)) / 1.5;
+                    drdTmp1 = (distLeft + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2)) / Math.Cos(angle1 * Math.PI / 180);
+                    if (distLeft > dist)
+                        drdpr = ParallelResult.PreaDepartat;
+                    else
+                        drdpr = ParallelResult.PreaApropiat;
+                    RealFuncs.rotirePeLoc(30, 60, Engines.LeftEngines);
+                    drdState = 1;
+                    break;
+
+                case 1:
+                    //funcs.Log("drdtmp: " + drdTmp1.Round(2).ToString() + "   dr:" + distRight.Round().ToString());
+                    if ((distLeft + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2)) > drdTmp1)
+                    {
+                        RealFuncs.StopEngines();
+                        drdState = 2;
+                    }
+                    break;
+                case 2:
+                    drdTmp1 = (dist + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2)) / Math.Cos(angle1 * Math.PI / 180);
+                    distantaParcursa(true);
+                    if (drdpr == ParallelResult.PreaDepartat)
+                    { RealFuncs.goBack(5, 60); drdState = 3; }
+                    else { RealFuncs.goFront(5, 60); drdState = 4; }
+                    //funcs.Log("drdtmp:" + drdTmp1.ToString());
+                    break;
+                case 3:
+                    if (distLeft + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2) < drdTmp1)
+                    {
+                        RealFuncs.StopEngines();
+                        drdState = 5;
+                        dp1 = distantaParcursa();
+                    }
+                    break;
+                case 4:
+                    if (distLeft + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth / 2) > drdTmp1)
+                    {
+                        RealFuncs.StopEngines();
+                        drdState = 5;
+                        dp1 = distantaParcursa();
+                    }
+                    break;
+                case 5:
+                    if (doLefetParalel())
+                    {
+                        if (drdpr == ParallelResult.PreaApropiat)
+                        { RealFuncs.goBack(10, 60); drdState = 6; }
+                        else { RealFuncs.goFront(10, 60); drdState = 6; }
+                        distantaParcursa(true);
+                    }
+                    break;
+                case 6:
+                    if (distantaParcursa() > dp1 * Math.Cos(angle1 * Math.PI / 180))
+                    {
+                        RealFuncs.StopEngines();
+                        //funcs.Log("cw: " + funcs.wpfPixelsToCMs(ext.TheCar.ActualWidth).ToString());
+                        return true;
+                    }
+                    break;
+            }
+
+
+            return false;
+        }
 
         static double tmpDist = 0;
         static double distantaParcursa(bool reset = false)
@@ -741,6 +937,7 @@ namespace PSim
                 return ext.TheCar.DistantaParcursa - tmpDist;
             }
         }
+
         static ParallelResult lastParallelResult = ParallelResult.Paralel;
         public static bool doRightParalel()
         {
@@ -754,16 +951,16 @@ namespace PSim
                     RealFuncs.StopEngines();
                     return true;
                 case ParallelResult.PreaApropiat:
-                    RealFuncs.rotirePeLoc(10, 175, Engines.RightEngines);
+                    RealFuncs.rotirePeLoc(10, 125, Engines.RightEngines);
                     break;
                 case ParallelResult.Apropiat:
-                    RealFuncs.rotirePeLoc(10, 90, Engines.RightEngines);
+                    RealFuncs.rotirePeLoc(10, 60, Engines.RightEngines);
                     break;
                 case ParallelResult.Departat:
-                    RealFuncs.rotirePeLoc(10, 90, Engines.LeftEngines);
+                    RealFuncs.rotirePeLoc(10, 60, Engines.LeftEngines);
                     break;
                 case ParallelResult.PreaDepartat:
-                    RealFuncs.rotirePeLoc(10, 175, Engines.LeftEngines);
+                    RealFuncs.rotirePeLoc(10, 125, Engines.LeftEngines);
                     break;
             }
             return false;
@@ -781,19 +978,27 @@ namespace PSim
                     RealFuncs.StopEngines();
                     return true;
                 case ParallelResult.PreaApropiat:
-                    RealFuncs.rotirePeLoc(10, 175, Engines.LeftEngines);
+                    RealFuncs.rotirePeLoc(10, 125, Engines.LeftEngines);
                     break;
                 case ParallelResult.Apropiat:
-                    RealFuncs.rotirePeLoc(10, 90, Engines.LeftEngines);
+                    RealFuncs.rotirePeLoc(10, 60, Engines.LeftEngines);
                     break;
                 case ParallelResult.Departat:
-                    RealFuncs.rotirePeLoc(10, 90, Engines.RightEngines);
+                    RealFuncs.rotirePeLoc(10, 60, Engines.RightEngines);
                     break;
                 case ParallelResult.PreaDepartat:
-                    RealFuncs.rotirePeLoc(10, 175, Engines.RightEngines);
+                    RealFuncs.rotirePeLoc(10, 125, Engines.RightEngines);
                     break;
             }
             return false;
+        }
+
+        static void teleport(int x, int y, double angle)
+        {
+            ext.TheCar.Left = x * ext.MapWindow.bigGrid.ActualHeight / funcs.getRH();
+            ext.TheCar.Top = y * ext.MapWindow.bigGrid.ActualHeight / funcs.getRH(); // 4553  4500
+            ext.TheCar.RotationAngle = angle;
+            ext.MapWindow.RefreshShits();
         }
 
         public static ParallelResult isRightParalel(int epsilon = -1, int warningEpsilon = -1)
@@ -833,6 +1038,201 @@ namespace PSim
                     return rez > epsilon ? ParallelResult.Departat : ParallelResult.Apropiat;
             else
                 return rez > warningEpsilon ? ParallelResult.PreaDepartat : ParallelResult.PreaApropiat;
+        }
+
+
+
+
+
+        public static void initParcare()
+        {
+            QueueEntry qe = new QueueEntry();
+            qe.BackUpPeriod = qe.Period = 50;
+            qe.Repeat = true;
+            qe.TheFunction += Parking;
+            stare = 0;
+            ext.cmdQueue.Add(qe);
+
+        }
+        static int stare1 = 0;
+        static int parcariGasite = 0, parcareBuna = 21;
+        public static bool Parking(QueueEntry qe, EventArgs e)
+        {
+            double frontLeft = RealFuncs.getSensorValue(Sensor.FrontLeft);
+            double frontRight = RealFuncs.getSensorValue(Sensor.FrontRight);
+            double sideLeft = RealFuncs.getSensorValue(Sensor.SideLeft);
+            double sideRight = RealFuncs.getSensorValue(Sensor.SideRight);
+            funcs.Log("stare1 :" + stare1.ToString());
+            switch (stare1)
+            {
+                case 0:
+                    RealFuncs.goFront(60, 250);
+                    stare1 = 1;
+                    break;
+                case 1:
+                    if (frontLeft < 208)
+                    {
+                        RealFuncs.rotirePeLoc(60, 150, Engines.LeftEngines);
+                        stare1 = 2;
+                    }
+                    break;
+                case 2:
+                    if (isLeftParalel() == 0)
+                    {
+                        RealFuncs.goFront(60, 250);
+                        stare1 = 3;
+                    }
+                    break;
+                case 3:
+                    if (frontLeft < 218)
+                    {
+                        RealFuncs.rotirePeLoc(60, 150, Engines.RightEngines);
+                        stare1 = 4;
+                    }
+                    break;
+                case 4:
+                    if (isRightParalel() == 0)
+                    {
+                        RealFuncs.goFront(60, 250);
+                        stare1 = 5;
+                    }
+                    break;
+                case 5:
+                    if (frontLeft < 600 && frontLeft > 500)
+                    {
+                        funcs.Log("parcare");
+                        parcariGasite++;
+                        stare1 = 6;
+                        RealFuncs.goFront(60, 250);
+                    }
+                    break;
+                case 6:
+                    if (frontLeft < 500)
+                    {
+                        stare1 = 7;
+                    }
+                    break;
+                case 7:
+                    if (frontLeft < 600 && frontLeft > 500)
+                    {
+                        funcs.Log("parcare");
+                        parcariGasite++;
+                        stare1 = 8;
+                    }
+                    break;
+                case 8:
+                    if (sideLeft > 399)
+                    {
+                        funcs.Log("parcare buna");
+                        parcareBuna--;
+                        if (parcareBuna == 0)
+                            stare1 = 96;
+                        else
+                            stare1 = 10;
+                    }
+                    else
+                    {
+                        stare1 = 10;
+                    }
+                    break;
+                case 9:
+                    stare1 = 99;
+                    break;
+                case 10:
+                    if (frontLeft < 500)
+                    {
+                        stare1 = 11;
+                    }
+                    break;
+                case 11:
+                    if (frontLeft < 600 && frontLeft > 500)
+                    {
+                        funcs.Log("parcare");
+                        parcariGasite++;
+                        stare1 = 12;
+                    }
+                    break;
+                case 12:
+
+                    if (sideRight > 399)
+                    {
+                        funcs.Log("iesire");
+                    }
+                    if (sideLeft > 399)
+                    {
+                        funcs.Log("parcare buna");
+                        parcareBuna--;
+                        if (parcareBuna == 0)
+                            stare1 = 96;
+                        else
+                            stare1 = 13;
+                    }
+                    break;
+                case 13:
+                    if (frontRight < 660)
+                        stare1 = 14;
+                    break;
+                case 14:
+                    if (sideRight > 300)
+                    {
+                        parcareBuna--;
+                        if (parcareBuna == 0)
+                            stare1 = 96;
+                        else
+                            stare1 = 15;
+                    }
+                    else
+                        stare1 = 15;
+                    break;
+                case 15:
+                    if (frontLeft < 218)
+                    {
+                        RealFuncs.rotirePeLoc(60, 150, Engines.RightEngines);
+                        stare1 = 16;
+                    }
+                    break;
+                case 16:
+                    if (isRightParalel() == 0)
+                    {
+                        RealFuncs.goFront(10, 250);
+                        stare1 = 17;
+                    }
+                    break;
+                case 17:
+                    if (sideRight > 300)
+                    {
+                        funcs.Log("iesire 2");
+                        stare1 = 2;
+                    }
+                    break;
+                case 96:
+                   // if(sideLeft >512 && sideLeft<552)
+                    {
+                        RealFuncs.rotirePeLoc(1, 200, Engines.RightEngines);
+                        stare1 = 97;
+                    }
+                    break;
+                case 97:
+                    if (frontRight < 300)
+                    {
+                        RealFuncs.goFront(20, 250);
+                        stare1 = 98;
+                    }
+                    break;
+                case 98:
+                    if (frontRight < 60)
+                        stare1 = 99;
+                    break;
+                case 99:
+                    {
+                        RealFuncs.StopEngines();
+                        return true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return false;
         }
     }
 }

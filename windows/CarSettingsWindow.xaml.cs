@@ -222,7 +222,7 @@ namespace PSim
 
         private void executeCode1Btn_Click(object sender, RoutedEventArgs e)
         {
-            RealMeta.initMersConturInchis();
+            RealMeta.executeCode1ButtonPressed();
         }
 
         private void abortBtn_Click(object sender, RoutedEventArgs e)
