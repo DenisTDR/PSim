@@ -20,8 +20,13 @@ namespace PSim
             ext.EngineRatio = 2;
             parallelCheckToleranceNumUD.ValueChanged += parallelCheckToleranceNumUD_ValueChanged;
             parallelWarningToleranceNumUD.ValueChanged += parallelWarningToleranceNumUD_ValueChanged;
-            parallelCheckToleranceNumUD.Value = 10;
-            parallelWarningToleranceNumUD.Value= 25;
+            this.Loaded += CarSettingsWindow_Loaded;
+        }
+
+        void CarSettingsWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            parallelCheckToleranceNumUD.Value = parallelCheckToleranceNumUD.Value;
+            parallelWarningToleranceNumUD.Value = parallelWarningToleranceNumUD.Value;
         }
 
         void parallelWarningToleranceNumUD_ValueChanged(Control.NumericUpDown m, double NewValue)
@@ -152,6 +157,8 @@ namespace PSim
             }
             try
             {
+                if (ext.MapWindow == null)
+                    return;
                 ext.MapWindow.refreshMechanicCouple();
             }
             catch { }
@@ -161,6 +168,8 @@ namespace PSim
         {
             try
             {
+                if (ext.MapWindow == null || ext.TheCar == null)
+                    return;
                 ext.TheCar.MaxEngineForce = enginePowerSlider.Value / 255;
                 ext.MapWindow.refreshMechanicCouple();
             }
@@ -213,7 +222,7 @@ namespace PSim
 
         private void executeCode1Btn_Click(object sender, RoutedEventArgs e)
         {
-            RealMeta.initTest1();
+            RealMeta.executeCode1ButtonPressed();
         }
 
         private void abortBtn_Click(object sender, RoutedEventArgs e)
@@ -236,7 +245,7 @@ namespace PSim
 
         private void paralaleCheckBtn_Click(object sender, RoutedEventArgs e)
         {
-            int x = RealMeta.isLeftParalel();
+            int x = (int)RealMeta.isLeftParalel();
             funcs.Log("isRP=" + x.ToString());
         }
 

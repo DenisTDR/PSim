@@ -2,7 +2,5 @@
 <Window x:Class="PSim.MapWindow" Title="MapWindow" Height="732.093" Width="713.639" WindowStartupLocation="CenterScreen" 
 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:local="clr-namespace:PSim">
-    <Grid Name="bigGrid">
-        <Label Name="lbl1" Content="Label" HorizontalAlignment="Left" Margin="130.8,10,0,0" VerticalAlignment="Top" FontSize="21"/>
-    </Grid>
+    <Grid Name="bigGrid"/>
 </Window>

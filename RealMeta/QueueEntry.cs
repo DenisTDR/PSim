@@ -14,6 +14,7 @@ namespace PSim
         public int BackUpPeriod { get; set; }
         public bool Repeat { get; set; }
         public string UserData { get; set; }
+        public int State { get; set; }
 
         public bool CheckIfDone()
         {
@@ -25,6 +26,7 @@ namespace PSim
             Period = 1000;
             BackUpPeriod = Period;
             Repeat = false;
+            State = 0;
         }
 
     }

@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              Height="100" Width="85"
              >
-    <Border BorderBrush="#FF000000" BorderThickness="2">
-        <Grid>
+    <Border BorderBrush="#FF000000" BorderThickness="2" Background="Black">
+        <Grid x:Name="polygonGrid">
             <Polygon Name="thePolygon" Points="43,20 20,70 65,70" Stroke="#FF800080" StrokeThickness="2">
                 <Polygon.Fill>
                     <SolidColorBrush Color="Blue" Opacity="1" />

@@ -118,7 +118,10 @@ namespace PSim
             ext.ActionsList.Add(new CarAction() { MoveAction = MoveAction.SmartMovement, Duration = 60/*double.Parse(this.timeTxt.Text)*/});
         }
 
-
+        public static double getSensorValue(Sensor sensor)
+        {
+            return funcs.wpfPixelsToCMs(funcs.getSensorValue(sensor));
+        }
     }
 
 

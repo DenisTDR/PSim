@@ -137,7 +137,7 @@ namespace Psim.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Math.Min(System.Convert.ToDouble(value) * 0.25, System.Convert.ToDouble(parameter));
+            return Math.Min(System.Convert.ToDouble(value) * 0.40, System.Convert.ToDouble(parameter));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -165,7 +165,7 @@ namespace Psim.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Math.Max(System.Convert.ToDouble(value) * 0.75, System.Convert.ToDouble(value)-System.Convert.ToDouble(parameter));
+            return Math.Max(System.Convert.ToDouble(value) * 0.60, System.Convert.ToDouble(value)-System.Convert.ToDouble(parameter));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

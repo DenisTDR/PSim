@@ -35,12 +35,13 @@ namespace PSim
 
 		public MapWindow()
 		{
-			this.InitializeComponent();
+            this.InitializeComponent();
+            (ext.LogsWindow = new LogsWindow()).Show();
             ext.TheCar = theCar = new Car();
             theCar.HorizontalAlignment = HorizontalAlignment.Left;
             theCar.VerticalAlignment = VerticalAlignment.Top;
             theCar.LeftEnginesForce = theCar.RightEnginesForce = 1;
-            theCar.MaxEngineForce = 255 / 5;
+            theCar.MaxEngineForce = 1;
             theCar.EngineRatio = 1;
             this.bigGrid.Children.Add(theCar);
 
@@ -61,7 +62,6 @@ namespace PSim
 			SensorsWindow sensorsWindow = new SensorsWindow();
 			ext.SensorsWindow = sensorsWindow;
 			sensorsWindow.Show();
-            (ext.LogsWindow = new LogsWindow()).Show();
             (ext.GraphicForm = new GraphicForm()).Show();
 			base.Closed += new EventHandler(this.MapWindow_Closed);
 			base.SizeChanged += new SizeChangedEventHandler(this.MapWindow_SizeChanged);
@@ -108,33 +108,41 @@ namespace PSim
 			else
 			{
 				ext.distanceSensors.Clear();
-			}
+            }
 			List<DistanceSensor> distanceSensors = ext.distanceSensors;
 			DistanceSensor distanceSensor = new DistanceSensor()
 			{
                 Name = "FrontRight",
-				Angle = 45
-			};
+				Angle = 45,
+                Min = 100,
+                Max = 800
+            };
 			distanceSensors.Add(distanceSensor);
 			List<DistanceSensor> distanceSensors1 = ext.distanceSensors;
 			DistanceSensor distanceSensor1 = new DistanceSensor()
 			{
                 Name = "FrontLeft",
-				Angle = -45
+				Angle = -45,
+                Min = 100,
+                Max = 800
 			};
 			distanceSensors1.Add(distanceSensor1);
 			List<DistanceSensor> distanceSensors2 = ext.distanceSensors;
 			DistanceSensor distanceSensor2 = new DistanceSensor()
 			{
 				Name = "SideRight",
-				Angle = 90
+				Angle = 90,
+                Min = 40,
+                Max = 400
 			};
 			distanceSensors2.Add(distanceSensor2);
 			List<DistanceSensor> distanceSensors3 = ext.distanceSensors;
 			DistanceSensor distanceSensor3 = new DistanceSensor()
 			{
 				Name = "SideLeft",
-				Angle = -90
+                Angle = -90,
+                Min = 40,
+                Max = 400
 			};
 			distanceSensors3.Add(distanceSensor3);
 			foreach (DistanceSensor distanceSensor4 in ext.distanceSensors)
@@ -191,20 +199,18 @@ namespace PSim
             ext.ParkingType = _parkingType;
             if (ext.ParkingType == ParkingType.LateralParking)
             {
-                bigGrid.Background = new ImageBrush(new BitmapImage(new Uri(
-                    System.Windows.Navigation.BaseUriHelper.GetBaseUri(this), "../images/lpa_2537.6093.jpg")));
-                theCar.RotationAngle = 180;                
+                bigGrid.Background = new ImageBrush(ext.laterallParkingImage);                
+                theCar.RotationAngle = 180.01;                
             }
             else
             {
-                bigGrid.Background = new ImageBrush(new BitmapImage(new Uri(
-                    System.Windows.Navigation.BaseUriHelper.GetBaseUri(this), "../images/pa_4659.4771.jpg")));
-                theCar.RotationAngle = 0;
+                bigGrid.Background = new ImageBrush(ext.bigParkingImage);
+                theCar.RotationAngle = 0.01;
             }
             foreach (Line line in this.lines)
                 this.bigGrid.Children.Remove(line);
             this.lines.Clear();
-            
+
             MapWindow_SizeChanged(null, null);
             if (ext.ParkingType == ParkingType.LateralParking)
             {
@@ -213,13 +219,13 @@ namespace PSim
             }
             else
             {
-                theCar.Left = 2120 * bigGrid.ActualHeight / funcs.getRH();
-                theCar.Top = 4300 * bigGrid.ActualHeight / funcs.getRH(); // 4553
-
+                
+                theCar.Left = 2140 * bigGrid.ActualHeight / funcs.getRH();
+                theCar.Top = 4500 * bigGrid.ActualHeight / funcs.getRH(); // 4553  4500
             } 
             lastBigGridWidth = bigGrid.ActualWidth;
             
-            tmpRefreshShitsTimes = 5;
+            tmpRefreshShitsTimes = 1;
 
             if (ext.MapSettingsWindow != null)
                 ext.MapSettingsWindow.RefreshShits();
@@ -270,7 +276,7 @@ namespace PSim
 		{
 			Application.Current.Shutdown();
 		}
-
+        bool upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
 		private void MapWindow_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (this.keyboardAction == null)
@@ -281,52 +287,129 @@ namespace PSim
 				};
 			}
 			if (e.Key == Key.Up || e.Key==Key.W)
-			{
-				this.keyboardAction.MoveAction = MoveAction.Forward;
-			}
+                upPressed = true;
+				//this.keyboardAction.MoveAction = MoveAction.Forward;
             else if (e.Key == Key.Down || e.Key == Key.S)
-			{
-				this.keyboardAction.MoveAction = MoveAction.Backward;
-			}
+                downPressed = true;
+				//this.keyboardAction.MoveAction = MoveAction.Backward
             else if (e.Key == Key.Left || e.Key == Key.A)
-			{
-				this.keyboardAction.Direction = Direction.Left;
-			}
+                leftPressed = true;
+                //this.keyboardAction.Direction = Direction.Left;
             else if (e.Key == Key.Right || e.Key == Key.D)
+                rightPressed = true;
+                //this.keyboardAction.Direction = Direction.Right;
+
+            if ((e.Key == Key.Up || e.Key == Key.W || e.Key == Key.Down || e.Key == Key.S) 
+                ||(e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.A || e.Key == Key.D) )
 			{
-				this.keyboardAction.Direction = Direction.Right;
-			}
-            if ((e.Key == Key.Up || e.Key == Key.W || e.Key == Key.Down || e.Key == Key.S) && !ext.ActionsList.Contains(this.keyboardAction))
-			{
-				if (this.keyboardAction.Duration < 50)
+                refreshForcesCozKeyboard();
+                if (this.keyboardAction.Duration < 50)
 				{
-					this.keyboardAction.Duration = 1000;
+					//this.keyboardAction.Duration = 1000;
 				}
-				ext.ActionsList.Add(this.keyboardAction);
+				//ext.ActionsList.Add(this.keyboardAction);
 			}
 		}
 
 		private void MapWindow_KeyUp(object sender, KeyEventArgs e)
 		{
+            if (e.Key == Key.Up || e.Key == Key.W)
+                upPressed = false;
+            if (e.Key == Key.Down || e.Key == Key.S)
+                downPressed = false;
+            if (e.Key == Key.Left || e.Key == Key.A)
+                leftPressed = false;
+            if (e.Key == Key.Right || e.Key == Key.D)
+                rightPressed = false;
+            
             if ((e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.W || e.Key == Key.S))
 			{
-				if (this.keyboardAction != null && ext.ActionsList.Contains(this.keyboardAction))
-				{
-					ext.ActionsList.Remove(this.keyboardAction);
-				}
+                refreshForcesCozKeyboard();
 			}
             if ((e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.D || e.Key == Key.A))
 			{
-				if (this.keyboardAction != null)
-				{
-					this.keyboardAction.Direction = Direction.Straight;
-				}
+                refreshForcesCozKeyboard();
 			}
 		}
+        void refreshForcesCozKeyboard()
+        {
+            if (upPressed)
+            {
+                ext.TheCar.LeftEnginesSense = 1;
+                ext.TheCar.RightEnginesSense = 1;
+                if (rightPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 0;
+                }
+                else if (leftPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 0;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+                else
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+            }
+            else if (downPressed)
+            {
+                ext.TheCar.LeftEnginesSense = -1;
+                ext.TheCar.RightEnginesSense = -1;
+                if (rightPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 0;
+                }
+                else if (leftPressed)
+                {
+                    ext.TheCar.LeftEnginesForce = 0;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+                else
+                {
+                    ext.TheCar.LeftEnginesForce = 1;
+                    ext.TheCar.RightEnginesForce = 1;
+                }
+            }
+            else if (leftPressed)
+            {
+                ext.TheCar.LeftEnginesSense = -1;
+                ext.TheCar.RightEnginesSense = 1;
+                ext.TheCar.LeftEnginesForce = 1;
+                ext.TheCar.RightEnginesForce = 1;
+            }
+            else if (rightPressed)
+            {
+                ext.TheCar.LeftEnginesSense = 1;
+                ext.TheCar.RightEnginesSense = -1;
+                ext.TheCar.LeftEnginesForce = 1;
+                ext.TheCar.RightEnginesForce = 1;
+            }
+            else
+            {
+                ext.TheCar.LeftEnginesForce = 0;
+                ext.TheCar.RightEnginesForce = 0;
+                ext.ActionsList.Clear();
+                return;
+            }
+            ext.ActionsList.Clear();
+            ext.ActionsList.Add(new CarAction() { MoveAction = MoveAction.SmartMovement, Duration = 25 /*double.Parse(this.timeTxt.Text)*/});
 
+        }
 		private void MapWindow_Loaded(object sender, RoutedEventArgs e)
 		{
             switchParking(ext.ParkingType);
+            System.Windows.Forms.Timer tmr = new System.Windows.Forms.Timer();
+            tmr.Interval = 1000;
+            tmr.Tick += (object sender2, EventArgs e2) =>
+            {
+                tmr.Stop();
+                tmr.Dispose();
+                //RealMeta.initMersConturInchis();
+            };
+            tmr.Start();
 		}
 
 		private void MapWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -343,8 +426,8 @@ namespace PSim
                 base.Width = actualHeight / funcs.getHWRatio() + width;
                 base.Height = actualHeight + height;
 
-                this.theCar.Width = 402 * actualHeight / funcs.getRH(); //402
-                this.theCar.Height = 470 * actualHeight / funcs.getRH();
+                this.theCar.Width = funcs.imagePixelsToWPFPixels(funcs.GetCarRW);// 401.0 *actualHeight / funcs.getRH(); 
+                this.theCar.Height = funcs.imagePixelsToWPFPixels(funcs.GetCarRH); ;// 471.0 * actualHeight / funcs.getRH();
 
 				this.drawLimits();
 				if (this.lastBigGridWidth != -1)
@@ -353,15 +436,18 @@ namespace PSim
 					this.theCar.Top = this.theCar.Top * actualWidth / this.lastBigGridWidth;
 				}
 				this.lastBigGridWidth = actualWidth;
-				this.theCar.RotationAngle = this.theCar.RotationAngle;
+                this.theCar.RotationAngle = this.theCar.RotationAngle;
                 this.RefreshShits();
                 this.resizing = false;
+
+                funcs.MapActualHeight = bigGrid.ActualHeight;
+                funcs.MapActualWidth = bigGrid.ActualWidth;
+                
 			}
 		}
 
-        private void RefreshShits()
+        public void RefreshShits()
         {
-            this.Title = ext.TheCar.ActualWidth.ToString() + ", " + ext.TheCar.ActualHeight.ToString();
             double midLeft = this.theCar.MidLeft + this.theCar.ActualHeight / 2 * Math.Sin(this.theCar.RotationAngleRads) + this.theCar.ActualWidth / 4 * Math.Sin(this.theCar.RotationAngleRads - 1.5707963267949);
             double midTop = this.theCar.MidTop - this.theCar.ActualHeight / 2 * Math.Cos(this.theCar.RotationAngleRads) - this.theCar.ActualWidth / 4 * Math.Cos(this.theCar.RotationAngleRads - 1.5707963267949);
             ext.distanceSensors[0].Location = new Point(midLeft, midTop);
