@@ -28,6 +28,5 @@ namespace PSim
             Repeat = false;
             State = 0;
         }
-
     }
 }
